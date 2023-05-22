@@ -1,0 +1,56 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+  name: newrelic-agent-operator.v0.0.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: Instrumentation is the Schema for the instrumentations API
+      displayName: New Relic Instrumentation
+      kind: Instrumentation
+      name: instrumentations.newrelic.com
+      resources:
+      - kind: Pod
+        name: ""
+        version: v1
+      version: v1alpha1
+  description: The New Relic agent operator is an admission controller API that enables
+    the instrumentation of application workloads (including Java, NodeJS, DotNet,
+    and Python) using a custom resource definition.
+  displayName: New Relic Agent Operator
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      deployments: null
+    strategy: ""
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - newrelic
+  - instrumentation
+  - apm
+  links:
+  - name: Newrelic Agent Operator
+    url: https://newrelic-agent-operator.domain
+  maintainers:
+  - email: alozoya@newrelic.com
+    name: Andrew Lozoya
+  maturity: alpha
+  provider:
+    name: New Relic
+    url: newrelic.com
+  version: 0.0.0

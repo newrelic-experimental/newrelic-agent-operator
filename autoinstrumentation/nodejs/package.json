@@ -1,0 +1,23 @@
+{
+  "name": "newrelic",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf build/*",
+    "prepare": "npm run compile",
+    "compile": "tsc -p .",
+    "postcompile": "copyfiles -f 'build/src/**' build/workspace/ && copyfiles 'node_modules/**' build/workspace/"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "rimraf": "^4.4.1",
+    "typescript": "^5.0.3"
+  },
+  "dependencies": {
+    "newrelic": "9.15.0",
+    "@newrelic/aws-sdk": "5.0.4",
+    "@newrelic/koa": "7.1.1",
+    "@newrelic/superagent": "6.0.0",
+    "@newrelic/native-metrics": "9.0.0"
+  }
+}

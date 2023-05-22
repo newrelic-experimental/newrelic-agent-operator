@@ -1,0 +1,13 @@
+apiVersion: newrelic.com/v1alpha1
+kind: Instrumentation
+metadata:
+  name: newrelic-instrumentation
+spec:
+  java:
+    image: ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-java:latest
+  nodejs:
+    image: ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-nodejs:latest
+  python:
+    image: ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-python:latest
+  dotnet:
+    image: ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-dotnet:latest
