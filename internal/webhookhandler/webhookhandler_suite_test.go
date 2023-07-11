@@ -36,7 +36,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
 	// +kubebuilder:scaffold:imports
 )
 

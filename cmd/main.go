@@ -41,13 +41,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	v1alpha1 "github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
-	"github.com/andrew-lozoya/newrelic-agent-operator/internal/config"
-	"github.com/andrew-lozoya/newrelic-agent-operator/internal/version"
-	"github.com/andrew-lozoya/newrelic-agent-operator/internal/webhookhandler"
-	"github.com/andrew-lozoya/newrelic-agent-operator/pkg/autodetect"
-	"github.com/andrew-lozoya/newrelic-agent-operator/pkg/instrumentation"
-	instrumentationupgrade "github.com/andrew-lozoya/newrelic-agent-operator/pkg/instrumentation/upgrade"
+	v1alpha1 "github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/internal/config"
+	"github.com/newrelic-experimental/newrelic-agent-operator/internal/version"
+	"github.com/newrelic-experimental/newrelic-agent-operator/internal/webhookhandler"
+	"github.com/newrelic-experimental/newrelic-agent-operator/pkg/autodetect"
+	"github.com/newrelic-experimental/newrelic-agent-operator/pkg/instrumentation"
+	instrumentationupgrade "github.com/newrelic-experimental/newrelic-agent-operator/pkg/instrumentation/upgrade"
 	// +kubebuilder:scaffold:imports
 )
 
@@ -96,10 +96,10 @@ func main() {
 	pflag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. "+
 			"Enabling this will ensure there is only one active controller manager.")
-	pflag.StringVar(&autoInstrumentationJava, "auto-instrumentation-java-image", fmt.Sprintf("ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-java:%s", v.AutoInstrumentationJava), "The default New Relic Java instrumentation image. This image is used when no image is specified in the CustomResource.")
-	pflag.StringVar(&autoInstrumentationNodeJS, "auto-instrumentation-nodejs-image", fmt.Sprintf("ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-nodejs:%s", v.AutoInstrumentationNodeJS), "The default New Relic NodeJS instrumentation image. This image is used when no image is specified in the CustomResource.")
-	pflag.StringVar(&autoInstrumentationPython, "auto-instrumentation-python-image", fmt.Sprintf("ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-python:%s", v.AutoInstrumentationPython), "The default New Relic Python instrumentation image. This image is used when no image is specified in the CustomResource.")
-	pflag.StringVar(&autoInstrumentationDotNet, "auto-instrumentation-dotnet-image", fmt.Sprintf("ghcr.io/andrew-lozoya/newrelic-agent-operator/instrumentation-dotnet:%s", v.AutoInstrumentationDotNet), "The default New Relic DotNet instrumentation image. This image is used when no image is specified in the CustomResource.")
+	pflag.StringVar(&autoInstrumentationJava, "auto-instrumentation-java-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-java:%s", v.AutoInstrumentationJava), "The default New Relic Java instrumentation image. This image is used when no image is specified in the CustomResource.")
+	pflag.StringVar(&autoInstrumentationNodeJS, "auto-instrumentation-nodejs-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-nodejs:%s", v.AutoInstrumentationNodeJS), "The default New Relic NodeJS instrumentation image. This image is used when no image is specified in the CustomResource.")
+	pflag.StringVar(&autoInstrumentationPython, "auto-instrumentation-python-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-python:%s", v.AutoInstrumentationPython), "The default New Relic Python instrumentation image. This image is used when no image is specified in the CustomResource.")
+	pflag.StringVar(&autoInstrumentationDotNet, "auto-instrumentation-dotnet-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-dotnet:%s", v.AutoInstrumentationDotNet), "The default New Relic DotNet instrumentation image. This image is used when no image is specified in the CustomResource.")
 	pflag.StringArrayVar(&labelsFilter, "labels", []string{}, "Labels to filter away from propagating onto deploys")
 	pflag.IntVar(&webhookPort, "webhook-port", 9443, "The port the webhook endpoint binds to.")
 	pflag.StringVar(&tlsOpt.minVersion, "tls-min-version", "VersionTLS12", "Minimum TLS version supported. Value must match version names from https://golang.org/pkg/crypto/tls/#pkg-constants.")

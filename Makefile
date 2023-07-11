@@ -5,7 +5,7 @@
 # - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
 VERSION ?= "$(shell git describe --tags | sed 's/^v//')"
 VERSION_DATE ?= $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
-VERSION_PKG ?= "github.com/andrew-lozoya/newrelic-aganet-operator/internal/version"
+VERSION_PKG ?= "github.com/newrelic-experimental/newrelic-aganet-operator/internal/version"
 OPERATOR_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-agent-operator | awk -F= '{print $$2}')"
 NEWRELIC_INSTRUMENTATION_JAVA_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-instrumentation-java | awk -F= '{print $$2}')"
 NEWRELIC_INSTRUMENTATION_NODEJS_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-instrumentation-nodejs | awk -F= '{print $$2}')"

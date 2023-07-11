@@ -26,8 +26,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
-	"github.com/andrew-lozoya/newrelic-agent-operator/pkg/constants"
+	"github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/pkg/constants"
 )
 
 const (
