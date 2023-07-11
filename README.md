@@ -1,12 +1,15 @@
 # newrelic-agent-operator
-<strong>newrelic-agent-operator</strong> is an implementation of a Kubernetes Operator, that manages auto-instrumentation of the workloads using New Relic APM agents.
+<strong>newrelic-agent-operator</strong> is an implementation of a Kubernetes [Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator), that manages auto-instrumentation of the workloads using New Relic APM agents.
 
 ## Description
 Customers expect the APM agent deployment process to be straightforward and hassle-free. They prefer agents that are easy to install and configure. The idea behind <strong>newrelic-agent-operator</strong> is to provide easy and efficient installation to the users. It uses
 * Kubernetest operator to create required custom resource for the agent installation. It creates <strong>newrelic-instrumentation</strong> 
   resource.
+* It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/),which provide a reconcile function responsible for 
+  synchronizing resources until the desired state is reached on the cluster.  
 * Init containers that executes required one-time New Relic agent setup in application pods.
-* Adding annotation ```instrumentation.newrelic.com/inject-<python>: "true"``` in application deployment yaml does the magic. This annotation helps to trigger language specific installation steps as part of the init container.
+* Adding annotation ```instrumentation.newrelic.com/inject-<python>: "true"``` in application deployment yaml does the magic. This 
+  annotation helps to trigger language specific installation steps as part of the init container.
 
 ## Getting Started
 You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) or [Minikube](https://minikube.sigs.k8s.io/docs/start/) to get a local cluster for testing, or run against a remote cluster.
@@ -40,26 +43,11 @@ make uninstall
 ```
 
 ### Undeploy controller
-UnDeploy the controller from the cluster:
+Undeploy the controller from the cluster:
 
 ```sh
 make undeploy
 ```
-
-## Contributing
-We encourage your contributions to improve New Relic agent operator! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project. If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company, please drop us an email at opensource@newrelic.com.
-
-A note about vulnerabilities
-
-As noted in our security policy, New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
-
-If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through HackerOne.
-
-### How it works
-This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
-
-It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/),
-which provide a reconcile function responsible for synchronizing resources until the desired state is reached on the cluster.
 
 ### Test It Out
 1. Install the CRDs into the cluster:
@@ -87,6 +75,21 @@ make manifests
 
 More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
 
+## Things to consider
+* Currently, <strong>newrelic-agent-operator</strong> supports instrumentation for python, Java, Nodejs and dotnet.
+* [cert-manager](https://cert-manager.io/docs/installation/) is required to be presented on cluster before starting newrelic-agent-operator
+
+
+## Contributing
+We encourage your contributions to improve New Relic agent operator! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project. If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company, please drop us an email at opensource@newrelic.com.
+
+A note about vulnerabilities
+
+As noted in our security policy, New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
+
+If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through HackerOne.
+
+
 ## License
 
 Copyright 2023.
@@ -102,4 +105,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
