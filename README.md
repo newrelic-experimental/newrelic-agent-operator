@@ -76,7 +76,7 @@ make manifests
 More information can be found via the [Kubebuilder Documentation](https://book.kubebuilder.io/introduction.html)
 
 ## Things to consider
-* Currently, <strong>newrelic-agent-operator</strong> supports instrumentation for python, Java, Nodejs and dotnet.
+* Currently, <strong>newrelic-agent-operator</strong> supports instrumentation for [Python](https://docs.newrelic.com/docs/apm/agents/python-agent/configuration/python-agent-configuration/), [Java](https://docs.newrelic.com/docs/apm/agents/java-agent/getting-started/introduction-new-relic-java/), [Node.js](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/getting-started/introduction-new-relic-nodejs/) and [.NET](https://docs.newrelic.com/docs/apm/agents/net-agent/getting-started/introduction-new-relic-net/).
 * [cert-manager](https://cert-manager.io/docs/installation/) is required to be presented on cluster before starting newrelic-agent-operator
 
 
