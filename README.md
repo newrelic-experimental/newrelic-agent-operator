@@ -1,11 +1,15 @@
 # newrelic-agent-operator
-// TODO(raga): Add simple overview of use/purpose
+<strong>newrelic-agent-operator</strong> is an implementation of a Kubernetes Operator, that manages auto-instrumentation of the workloads using New Relic APM agents.
 
 ## Description
-// TODO(user): An in-depth paragraph about your project and overview of use
+Customers expect the APM agent deployment process to be straightforward and hassle-free. They prefer agents that are easy to install and configure. The idea behind <strong>newrelic-agent-operator</strong> is to provide easy and efficient installation to the users. It uses
+* Kubernetest operator to create required custom resource for the agent installation. It creates <strong>newrelic-instrumentation</strong> 
+  resource.
+* Init containers that executes required one-time New Relic agent setup in application pods.
+* Adding annotation ```instrumentation.newrelic.com/inject-<python>: "true"``` in application deployment yaml does the magic. This annotation helps to trigger language specific installation steps as part of the init container.
 
 ## Getting Started
-You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) to get a local cluster for testing, or run against a remote cluster.
+You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) or [Minikube](https://minikube.sigs.k8s.io/docs/start/) to get a local cluster for testing, or run against a remote cluster.
 **Note:** Your controller will automatically use the current context in your kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
 
 ### Running on the cluster
@@ -15,13 +19,14 @@ You’ll need a Kubernetes cluster to run against. You can use [KIND](https://si
 kubectl apply -f config/samples/
 ```
 
-2. Build and push your image to the location specified by `IMG`:
+### Update newrelic-agent-operator
+1. Build and push your image to the location specified by `IMG`:
 
 ```sh
 make docker-build docker-push IMG=<some-registry>/newrelic-agent-operator:tag
 ```
 
-3. Deploy the controller to the cluster with the image specified by `IMG`:
+2. Deploy the controller to the cluster with the image specified by `IMG`:
 
 ```sh
 make deploy IMG=<some-registry>/newrelic-agent-operator:tag
@@ -42,7 +47,13 @@ make undeploy
 ```
 
 ## Contributing
-// TODO(user): Add detailed information on how you would like others to contribute to this project
+We encourage your contributions to improve New Relic agent operator! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project. If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company, please drop us an email at opensource@newrelic.com.
+
+A note about vulnerabilities
+
+As noted in our security policy, New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
+
+If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through HackerOne.
 
 ### How it works
 This project aims to follow the Kubernetes [Operator pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
