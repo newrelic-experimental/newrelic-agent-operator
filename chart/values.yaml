@@ -18,7 +18,7 @@ controllerManager:
   ## Provide New Relic Agent Operator manager container image and resources.
   manager:
     image:
-      repository: ghcr.io/andrew-lozoya/newrelic-agent-operator/newrelic-agent-operator
+      repository: ghcr.io/newrelic-experimental/newrelic-agent-operator/newrelic-agent-operator
       tag: v0.0.4
     resources:
       requests:
@@ -37,16 +37,16 @@ controllerManager:
 kubernetesClusterDomain: cluster.local
 metricsService:
   ports:
-  - name: https
-    port: 8443
-    protocol: TCP
-    targetPort: https
+    - name: https
+      port: 8443
+      protocol: TCP
+      targetPort: https
   type: ClusterIP
 webhookService:
   ports:
-  - port: 443
-    protocol: TCP
-    targetPort: 9443
+    - port: 443
+      protocol: TCP
+      targetPort: 9443
   type: ClusterIP
 
 ## SecurityContext holds pod-level security attributes and common container settings.

@@ -24,8 +24,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/internal/config"
-	"github.com/andrew-lozoya/newrelic-agent-operator/pkg/autodetect"
+	"github.com/newrelic-experimental/newrelic-agent-operator/internal/config"
+	"github.com/newrelic-experimental/newrelic-agent-operator/pkg/autodetect"
 )
 
 func TestNewConfig(t *testing.T) {
