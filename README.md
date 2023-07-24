@@ -26,7 +26,7 @@ kubectl apply -f config/samples/
 1. Build and push your image to the location specified by `IMG`:
 
 ```sh
-make docker-build docker-push IMG=<some-registry>/newrelic-agent-operator:tag
+make container container-push  IMG=<some-registry>/newrelic-agent-operator:tag
 ```
 
 2. Deploy the controller to the cluster with the image specified by `IMG`:
