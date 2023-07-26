@@ -1,28 +1,53 @@
+<a href="https://opensource.newrelic.com/oss-category/#new-relic-experimental"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/dark/Experimental.png"><source media="(prefers-color-scheme: light)" srcset="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/Experimental.png"><img alt="New Relic Open Source experimental project banner." src="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/Experimental.png"></picture></a>
+
 # newrelic-agent-operator
 <strong>newrelic-agent-operator</strong> is an implementation of a Kubernetes [Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator), that manages auto-instrumentation of the workloads using New Relic APM agents.
 
 ## Description
-Customers expect the APM agent deployment process to be straightforward and hassle-free. They prefer agents that are easy to install and configure. The idea behind <strong>newrelic-agent-operator</strong> is to provide easy and efficient installation to the users. It uses
-* Kubernetest operator to create required custom resource for the agent installation. It creates <strong>newrelic-instrumentation</strong> 
-  resource.
-* It uses [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/),which provide a reconcile function responsible for 
-  synchronizing resources until the desired state is reached on the cluster.  
-* Init containers that executes required one-time New Relic agent setup in application pods.
-* Adding annotation ```instrumentation.newrelic.com/inject-<python>: "true"``` in application deployment yaml does the magic. This 
-  annotation helps to trigger language specific installation steps as part of the init container.
+If you are looking for configuring New Relic APM agents in your Kuberntest cluster, then you are on right page. This will guide you to configure APM agent in seamless manner. The idea behind <strong>newrelic-agent-operator</strong> is to provide simple and efficient installation to the users. It uses Kubernetest operator to create and configure custom resource called <strong>instrumentation</strong>. This custom resource provides higher-level abstraction for language specific agent configuration in the Kubernetes cluster. Also, underlying <strong>newrelic-agent-operator</strong> leverages Init containers to execute the required one-time agent setup,  enabling seamless auto-instrumentation functionality. 
 
-## Getting Started
+## Installation
 You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) or [Minikube](https://minikube.sigs.k8s.io/docs/start/) to get a local cluster for testing, or run against a remote cluster.
 **Note:** Your controller will automatically use the current context in your kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
 
-### Running on the cluster
-1. Install Instances of Custom Resources:
+1. Install newrelic-agent-operator using helm chart
+```sh
+helm upgrade --install  newrelic-agent-operator chart/ --set licenseKey='licenseKey'
+```
+
+2. Configure Instrumentation custom resource definition 
 
 ```sh
 kubectl apply -f config/samples/
 ```
 
-### Update newrelic-agent-operator
+## Getting Started
+Include annotation ```instrumentation.newrelic.com/inject-<python>: "true"``` in your workload deployment yaml. That's it. Ensure your application is deployed successfully and the operator successfully injected language specific auto-instrumentation.Then, you can visit [New Relic dashboard](https://one.newrelic.com/) here and find your application insights.
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <name>
+spec:
+  selector:
+    matchLabels:
+      app: <name>
+  replicas: <1>
+  template:
+    metadata:
+      labels:
+        app: <name>
+      annotations:
+        instrumentation.newrelic.com/inject-python: "true"
+    spec:
+      containers:
+      ......
+      ...... 
+```
+
+## Building
+
 1. Build and push your image to the location specified by `IMG`:
 
 ```sh
@@ -80,20 +105,21 @@ More information can be found via the [Kubebuilder Documentation](https://book.k
 * [cert-manager](https://cert-manager.io/docs/installation/) is required to be presented on cluster before starting newrelic-agent-operator
 
 
+## Support
+
+New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. If you're running into a problem, please raise an issue on this repository and we will try to help you ASAP. Please bear in mind this is an open source project and hence it isn't directly supported by New Relic.
+
 ## Contributing
-We encourage your contributions to improve New Relic agent operator! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project. If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company, please drop us an email at opensource@newrelic.com.
+We encourage your contributions to improve <strong>newrelic-agent-operator</strong> . Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
+If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company,  please drop us an email at opensource@newrelic.com.
 
-A note about vulnerabilities
+**A note about vulnerabilities**
 
-As noted in our security policy, New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
+As noted in our [security policy](../../security/policy), New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
 
-If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through HackerOne.
-
+If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through [HackerOne](https://hackerone.com/newrelic).
 
 ## License
-
-Copyright 2023.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
