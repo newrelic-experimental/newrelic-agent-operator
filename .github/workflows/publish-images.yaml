@@ -13,10 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-
-      - name: Unshallow 
-        run: git fetch --prune --unshallow
+          fetch-depth: 1
 
       - name: Describe the current state 
         run: git describe --tags
