@@ -19,7 +19,7 @@ controllerManager:
   manager:
     image:
       repository: ghcr.io/newrelic-experimental/newrelic-agent-operator/newrelic-agent-operator
-      tag: v0.0.4
+      tag: main
     resources:
       requests:
         cpu: 100m
