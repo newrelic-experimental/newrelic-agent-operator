@@ -30,7 +30,7 @@ metadata:
         }
       ]
     capabilities: Basic Install
-    createdAt: "2023-12-01T00:18:18Z"
+    createdAt: "2023-12-04T21:11:35Z"
     operators.operatorframework.io/builder: operator-sdk-v1.27.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4-alpha
   name: newrelic-agent-operator.v0.1.2
@@ -262,7 +262,7 @@ spec:
     containerPort: 443
     deploymentName: newrelic-agent-operator-controller-manager
     failurePolicy: Fail
-    generateName: minstrumentation.kb.io
+    generateName: instrumentation.kb.io
     rules:
     - apiGroups:
       - newrelic.com

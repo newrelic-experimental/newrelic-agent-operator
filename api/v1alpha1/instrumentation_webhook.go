@@ -46,7 +46,7 @@ func (r *Instrumentation) SetupWebhookWithManager(mgr ctrl.Manager) error {
 		Complete()
 }
 
-// +kubebuilder:webhook:path=/mutate-newrelic-com-v1alpha1-instrumentation,mutating=true,failurePolicy=fail,sideEffects=None,groups=newrelic.com,resources=instrumentations,verbs=create;update,versions=v1alpha1,name=minstrumentation.kb.io,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-newrelic-com-v1alpha1-instrumentation,mutating=true,failurePolicy=fail,sideEffects=None,groups=newrelic.com,resources=instrumentations,verbs=create;update,versions=v1alpha1,name=instrumentation.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Defaulter = &Instrumentation{}
 
@@ -57,7 +57,7 @@ func (r *Instrumentation) Default() {
 		r.Labels = map[string]string{}
 	}
 	if r.Labels["app.kubernetes.io/managed-by"] == "" {
-		r.Labels["app.kubernetes.io/managed-by"] = "newrelice-agent-operator"
+		r.Labels["app.kubernetes.io/managed-by"] = "newrelic-agent-operator"
 	}
 
 	if r.Spec.Java.Image == "" {

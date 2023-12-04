@@ -13,7 +13,7 @@ webhooks:
       namespace: system
       path: /mutate-newrelic-com-v1alpha1-instrumentation
   failurePolicy: Fail
-  name: minstrumentation.kb.io
+  name: instrumentation.kb.io
   rules:
   - apiGroups:
     - newrelic.com
