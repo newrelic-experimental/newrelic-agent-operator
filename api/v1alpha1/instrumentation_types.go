@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -26,7 +27,27 @@ type InstrumentationSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	//  Env defines agent specific env vars
+	// Exporter defines exporter configuration.
+	// +optional
+	Exporter `json:"exporter,omitempty"`
+
+	// Resource defines the configuration for the resource attributes, as defined by the OpenTelemetry specification.
+	// +optional
+	Resource Resource `json:"resource,omitempty"`
+
+	// Propagators defines inter-process context propagation configuration.
+	// Values in this list will be set in the OTEL_PROPAGATORS env var.
+	// Enum=tracecontext;none
+	// +optional
+	Propagators []Propagator `json:"propagators,omitempty"`
+
+	// Sampler defines sampling configuration.
+	// +optional
+	Sampler `json:"sampler,omitempty"`
+
+	// Env defines common env vars. There are four layers for env vars' definitions and
+	// the precedence order is: `original container env vars` > `language specific env vars` > `common env vars` > `instrument spec configs' vars`.
+	// If the former var had been defined, then the other vars would be ignored.
 	// +optional
 	Env []corev1.EnvVar `json:"env,omitempty"`
 
@@ -45,6 +66,47 @@ type InstrumentationSpec struct {
 	// DotNet defines configuration for DotNet auto-instrumentation.
 	// +optional
 	DotNet DotNet `json:"dotnet,omitempty"`
+
+	// Go defines configuration for Go auto-instrumentation.
+	// When using Go auto-instrumentation you must provide a value for the OTEL_GO_AUTO_TARGET_EXE env var via the
+	// Instrumentation env vars or via the instrumentation.opentelemetry.io/otel-go-auto-target-exe pod annotation.
+	// Failure to set this value causes instrumentation injection to abort, leaving the original pod unchanged.
+	// +optional
+	Go Go `json:"go,omitempty"`
+}
+
+type Resource struct {
+	// Attributes defines attributes that are added to the resource.
+	// For example environment: dev
+	// +optional
+	Attributes map[string]string `json:"resourceAttributes,omitempty"`
+
+	// AddK8sUIDAttributes defines whether K8s UID attributes should be collected (e.g. k8s.deployment.uid).
+	// +optional
+	AddK8sUIDAttributes bool `json:"addK8sUIDAttributes,omitempty"`
+}
+
+// Exporter defines OTLP exporter configuration.
+type Exporter struct {
+	// Endpoint is address of the collector with OTLP endpoint.
+	// +optional
+	Endpoint string `json:"endpoint,omitempty"`
+}
+
+// Sampler defines sampling configuration.
+type Sampler struct {
+	// Type defines sampler type.
+	// The value will be set in the OTEL_TRACES_SAMPLER env var.
+	// The value can be for instance parentbased_always_on, parentbased_always_off, parentbased_traceidratio...
+	// +optional
+	Type SamplerType `json:"type,omitempty"`
+
+	// Argument defines sampler argument.
+	// The value depends on the sampler type.
+	// For instance for parentbased_traceidratio sampler type it is a number in range [0..1] e.g. 0.25.
+	// The value will be set in the OTEL_TRACES_SAMPLER_ARG env var.
+	// +optional
+	Argument string `json:"argument,omitempty"`
 }
 
 // Java defines Java agent and instrumentation configuration.
@@ -92,6 +154,26 @@ type DotNet struct {
 	// If the former var had been defined, then the other vars would be ignored.
 	// +optional
 	Env []corev1.EnvVar `json:"env,omitempty"`
+}
+
+type Go struct {
+	// Image is a container image with Go SDK and auto-instrumentation.
+	// +optional
+	Image string `json:"image,omitempty"`
+
+	// VolumeSizeLimit defines size limit for volume used for auto-instrumentation.
+	// The default size is 200Mi.
+	VolumeSizeLimit *resource.Quantity `json:"volumeLimitSize,omitempty"`
+
+	// Env defines Go specific env vars. There are four layers for env vars' definitions and
+	// the precedence order is: `original container env vars` > `language specific env vars` > `common env vars` > `instrument spec configs' vars`.
+	// If the former var had been defined, then the other vars would be ignored.
+	// +optional
+	Env []corev1.EnvVar `json:"env,omitempty"`
+
+	// Resources describes the compute resource requirements.
+	// +optional
+	Resources corev1.ResourceRequirements `json:"resourceRequirements,omitempty"`
 }
 
 // InstrumentationStatus defines the observed state of Instrumentation

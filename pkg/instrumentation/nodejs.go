@@ -22,8 +22,10 @@ import (
 )
 
 const (
-	envNodeOptions      = "NODE_OPTIONS"
-	nodeRequireArgument = " --require /newrelic-instrumentation/newrelicinstrumentation.js"
+	envNodeOptions          = "NODE_OPTIONS"
+	nodeRequireArgument     = " --require /newrelic-instrumentation/newrelicinstrumentation.js"
+	nodejsInitContainerName = initContainerName + "-nodejs"
+	nodejsVolumeName        = volumeName + "-nodejs"
 )
 
 func injectNodeJSSDK(nodeJSSpec v1alpha1.NodeJS, pod corev1.Pod, index int) (corev1.Pod, error) {

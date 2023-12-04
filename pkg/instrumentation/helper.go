@@ -15,7 +15,9 @@ limitations under the License.
 */
 package instrumentation
 
-import corev1 "k8s.io/api/core/v1"
+import (
+	corev1 "k8s.io/api/core/v1"
+)
 
 // Calculate if we already inject InitContainers.
 func isInitContainerMissing(pod corev1.Pod) bool {
@@ -25,14 +27,4 @@ func isInitContainerMissing(pod corev1.Pod) bool {
 		}
 	}
 	return true
-}
-
-// Checks if Pod is already instrumented by checking Instrumentation InitContainer presence.
-func isAutoInstrumentationInjected(pod corev1.Pod) bool {
-	for _, cont := range pod.Spec.InitContainers {
-		if cont.Name == initContainerName {
-			return true
-		}
-	}
-	return false
 }

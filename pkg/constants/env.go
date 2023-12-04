@@ -17,6 +17,17 @@ limitations under the License.
 package constants
 
 const (
+	EnvOTELServiceName          = "OTEL_SERVICE_NAME"
+	EnvOTELExporterOTLPEndpoint = "OTEL_EXPORTER_OTLP_ENDPOINT"
+	EnvOTELResourceAttrs        = "OTEL_RESOURCE_ATTRIBUTES"
+	EnvOTELPropagators          = "OTEL_PROPAGATORS"
+	EnvOTELTracesSampler        = "OTEL_TRACES_SAMPLER"
+	EnvOTELTracesSamplerArg     = "OTEL_TRACES_SAMPLER_ARG"
+
+	EnvPodName  = "OTEL_RESOURCE_ATTRIBUTES_POD_NAME"
+	EnvPodUID   = "OTEL_RESOURCE_ATTRIBUTES_POD_UID"
+	EnvNodeName = "OTEL_RESOURCE_ATTRIBUTES_NODE_NAME"
+
 	EnvNewRelicAppName    = "NEW_RELIC_APP_NAME"
 	EnvNewRelicLicenseKey = "NEW_RELIC_LICENSE_KEY"
 )

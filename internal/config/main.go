@@ -39,6 +39,7 @@ type Config struct {
 	autoInstrumentationDotNetImage string
 	autoInstrumentationNodeJSImage string
 	autoInstrumentationJavaImage   string
+	autoInstrumentationGoImage     string
 	onOpenShiftRoutesChange        changeHandler
 	labelsFilter                   []string
 	openshiftRoutes                openshiftRoutesStore
@@ -71,6 +72,7 @@ func New(opts ...Option) Config {
 		autoInstrumentationNodeJSImage: o.autoInstrumentationNodeJSImage,
 		autoInstrumentationPythonImage: o.autoInstrumentationPythonImage,
 		autoInstrumentationDotNetImage: o.autoInstrumentationDotNetImage,
+		autoInstrumentationGoImage:     o.autoInstrumentationGoImage,
 		labelsFilter:                   o.labelsFilter,
 		autoscalingVersion:             o.autoscalingVersion,
 	}
@@ -151,6 +153,11 @@ func (c *Config) AutoInstrumentationPythonImage() string {
 // AutoInstrumentationDotNetImage returns New Relic DotNet auto-instrumentation container image.
 func (c *Config) AutoInstrumentationDotNetImage() string {
 	return c.autoInstrumentationDotNetImage
+}
+
+// AutoInstrumentationGoImage returns Opentelemtrey Go auto-instrumentation container image.
+func (c *Config) AutoInstrumentationGoImage() string {
+	return c.autoInstrumentationGoImage
 }
 
 // LabelsFilter Returns the filters converted to regex strings used to filter out unwanted labels from propagations.

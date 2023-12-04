@@ -4,14 +4,14 @@
 # the docs as well.
 
 # Represents the current release of the New Relic Operator.
-newrelic-agent-operator=0.0.4
+newrelic-agent-operator=0.1.2
 
 # Represents the current release of Java instrumentation.
 # Should match autoinstrumentation/java/version.txt
 newrelic-instrumentation-java=8.7.0
 
 # Represents the current release of NodeJS instrumentation.
-# Should match the value in autoinstrumentation/nodejs/package.json
+# Should match value in autoinstrumentation/nodejs/package.json
 newrelic-instrumentation-nodejs=11.5.0
 
 # Represents the current release of Python instrumentation.
@@ -19,5 +19,8 @@ newrelic-instrumentation-nodejs=11.5.0
 newrelic-instrumentation-python=9.2.0
 
 # Represents the current release of DotNet instrumentation.
-# Should match autoinstrumentation/dotnet/version.txt
+# Should match value in autoinstrumentation/dotnet/version.txt
 newrelic-instrumentation-dotnet=10.20.0
+
+# Represents the current release of Go instrumentation.
+autoinstrumentation-go=v0.7.0-alpha
