@@ -25,25 +25,46 @@ kubectl apply -f config/samples/
 Include annotation ```instrumentation.newrelic.com/inject-<python>: "true"``` in your workload deployment yaml. That's it. Ensure your application is deployed successfully and the operator successfully injected language specific auto-instrumentation.Then, you can visit [New Relic dashboard](https://one.newrelic.com/) here and find your application insights.
 
 ```
-apiVersion: apps/v1
-kind: Deployment
+---
+apiVersion: newrelic.com/v1alpha1
+kind: Instrumentation
 metadata:
-  name: <name>
+  labels:
+    app.kubernetes.io/name: instrumentation
+    app.kubernetes.io/created-by: newrelic-agent-operator
+  name: newrelic-instrumentation
 spec:
-  selector:
-    matchLabels:
-      app: <name>
-  replicas: <1>
-  template:
-    metadata:
-      labels:
-        app: <name>
-      annotations:
-        instrumentation.newrelic.com/inject-python: "true"
-    spec:
-      containers:
-      ......
-      ...... 
+# A required but separate opentelemetry collector is required for go autoinstrumentation set to 4318.
+# exporter:
+#  endpoint: http://opentelemetry-collector.newrelic:4318
+# propagators:
+#   - tracecontext
+# sampler:
+#   type: always_on
+# resource:
+#   resourceAttributes:
+#     cluster.name: "newrelic-operator-demo"
+  java:
+    image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-java:latest
+    env:
+    # Example New Relic agent supported environment variables
+      - name: NEW_RELIC_LABELS
+        value: "environment:auo-injection"
+    # Example overriding the appName configuration
+    # - name: NEW_RELIC_POD_NAME
+    #   valueFrom:
+    #     fieldRef:
+    #       fieldPath: metadata.name
+    # - name: NEW_RELIC_APP_NAME
+    #   value: "$(NEW_RELIC_LABELS)-$(NEW_RELIC_POD_NAME)"
+  nodejs:
+    image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-nodejs:latest
+  python:
+    image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-python:latest
+  dotnet:
+    image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-dotnet:latest
+  go:
+    image: ghcr.io/open-telemetry/opentelemetry-go-instrumentation/autoinstrumentation-go:latest
 ```
 
 ## Building
