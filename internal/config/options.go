@@ -23,8 +23,8 @@ import (
 
 	"github.com/go-logr/logr"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/internal/version"
-	"github.com/andrew-lozoya/newrelic-agent-operator/pkg/autodetect"
+	"github.com/newrelic-experimental/newrelic-agent-operator/internal/version"
+	"github.com/newrelic-experimental/newrelic-agent-operator/pkg/autodetect"
 )
 
 // Option represents one specific configuration option.
@@ -35,6 +35,7 @@ type options struct {
 	version                        version.Version
 	logger                         logr.Logger
 	autoInstrumentationDotNetImage string
+	autoInstrumentationGoImage     string
 	autoInstrumentationJavaImage   string
 	autoInstrumentationPythonImage string
 	autoInstrumentationNodeJSImage string
@@ -100,6 +101,12 @@ func WithAutoInstrumentationPythonImage(s string) Option {
 func WithAutoInstrumentationDotNetImage(s string) Option {
 	return func(o *options) {
 		o.autoInstrumentationDotNetImage = s
+	}
+}
+
+func WithAutoInstrumentationGoImage(s string) Option {
+	return func(o *options) {
+		o.autoInstrumentationGoImage = s
 	}
 }
 

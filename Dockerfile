@@ -25,6 +25,7 @@ ARG NEWRELIC_INSTRUMENTATION_JAVA_VERSION
 ARG NEWRELIC_INSTRUMENTATION_NODEJS_VERSION
 ARG NEWRELIC_INSTRUMENTATION_PYTHON_VERSION
 ARG NEWRELIC_INSTRUMENTATION_DOTNET_VERSION
+ARG AUTO_INSTRUMENTATION_GO_VERSION
 # Build
 # the GOARCH has not a default value to allow the binary be built according to the host where the command
 # was called. For example, if we call make docker-build in a local env which has the Apple Silicon M1 SO

@@ -24,7 +24,7 @@ import (
 	"github.com/go-logr/logr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
 )
 
 type InstrumentationUpgrade struct {
@@ -34,6 +34,7 @@ type InstrumentationUpgrade struct {
 	DefaultAutoInstNodeJS string
 	DefaultAutoInstPython string
 	DefaultAutoInstDotNet string
+	DefaultAutoInstGo     string
 }
 
 //+kubebuilder:rbac:groups=newrelic.com,resources=instrumentations,verbs=get;list;watch;update;patch
@@ -101,6 +102,14 @@ func (u *InstrumentationUpgrade) upgrade(_ context.Context, inst v1alpha1.Instru
 		if inst.Spec.DotNet.Image == autoInstDotnet {
 			inst.Spec.DotNet.Image = u.DefaultAutoInstDotNet
 			inst.Annotations[v1alpha1.AnnotationDefaultAutoInstrumentationDotNet] = u.DefaultAutoInstDotNet
+		}
+	}
+	autoInstGo := inst.Annotations[v1alpha1.AnnotationDefaultAutoInstrumentationGo]
+	if autoInstGo != "" {
+		// upgrade the image only if the image matches the annotation
+		if inst.Spec.Go.Image == autoInstDotnet {
+			inst.Spec.Go.Image = u.DefaultAutoInstGo
+			inst.Annotations[v1alpha1.AnnotationDefaultAutoInstrumentationGo] = u.DefaultAutoInstGo
 		}
 	}
 	return inst

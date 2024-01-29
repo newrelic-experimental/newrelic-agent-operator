@@ -14,10 +14,8 @@
     "typescript": "^5.0.3"
   },
   "dependencies": {
-    "newrelic": "9.15.0",
-    "@newrelic/aws-sdk": "5.0.4",
-    "@newrelic/koa": "7.1.1",
-    "@newrelic/superagent": "6.0.0",
-    "@newrelic/native-metrics": "9.0.0"
+    "newrelic": "11.10.0",
+    "@newrelic/aws-sdk": "7.1.0",
+    "@newrelic/native-metrics": "10.0.1"
   }
 }

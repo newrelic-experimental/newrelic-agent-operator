@@ -18,12 +18,14 @@ package instrumentation
 import (
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
 )
 
 const (
-	envNodeOptions      = "NODE_OPTIONS"
-	nodeRequireArgument = " --require /newrelic-instrumentation/newrelicinstrumentation.js"
+	envNodeOptions          = "NODE_OPTIONS"
+	nodeRequireArgument     = " --require /newrelic-instrumentation/newrelicinstrumentation.js"
+	nodejsInitContainerName = initContainerName + "-nodejs"
+	nodejsVolumeName        = volumeName + "-nodejs"
 )
 
 func injectNodeJSSDK(nodeJSSpec v1alpha1.NodeJS, pod corev1.Pod, index int) (corev1.Pod, error) {

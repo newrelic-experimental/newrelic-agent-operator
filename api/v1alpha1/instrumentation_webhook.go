@@ -32,7 +32,9 @@ const (
 	AnnotationDefaultAutoInstrumentationNodeJS = "instrumentation.newrelic.com/default-auto-instrumentation-nodejs-image"
 	AnnotationDefaultAutoInstrumentationPython = "instrumentation.newrelic.com/default-auto-instrumentation-python-image"
 	AnnotationDefaultAutoInstrumentationDotNet = "instrumentation.newrelic.com/default-auto-instrumentation-dotnet-image"
-	envPrefix                                  = "NEW_RELIC_"
+	AnnotationDefaultAutoInstrumentationGo     = "instrumentation.newrelic.com/default-auto-instrumentation-go-image"
+	envNewRelicPrefix                          = "NEW_RELIC_"
+	envOtelPrefix                              = "OTEL_"
 )
 
 // log is for logging in this package.
@@ -44,7 +46,7 @@ func (r *Instrumentation) SetupWebhookWithManager(mgr ctrl.Manager) error {
 		Complete()
 }
 
-// +kubebuilder:webhook:path=/mutate-newrelic-com-v1alpha1-instrumentation,mutating=true,failurePolicy=fail,sideEffects=None,groups=newrelic.com,resources=instrumentations,verbs=create;update,versions=v1alpha1,name=minstrumentation.kb.io,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-newrelic-com-v1alpha1-instrumentation,mutating=true,failurePolicy=fail,sideEffects=None,groups=newrelic.com,resources=instrumentations,verbs=create;update,versions=v1alpha1,name=instrumentation.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Defaulter = &Instrumentation{}
 
@@ -55,7 +57,7 @@ func (r *Instrumentation) Default() {
 		r.Labels = map[string]string{}
 	}
 	if r.Labels["app.kubernetes.io/managed-by"] == "" {
-		r.Labels["app.kubernetes.io/managed-by"] = "newrelice-agent-operator"
+		r.Labels["app.kubernetes.io/managed-by"] = "newrelic-agent-operator"
 	}
 
 	if r.Spec.Java.Image == "" {
@@ -76,6 +78,11 @@ func (r *Instrumentation) Default() {
 	if r.Spec.DotNet.Image == "" {
 		if val, ok := r.Annotations[AnnotationDefaultAutoInstrumentationDotNet]; ok {
 			r.Spec.DotNet.Image = val
+		}
+	}
+	if r.Spec.Go.Image == "" {
+		if val, ok := r.Annotations[AnnotationDefaultAutoInstrumentationGo]; ok {
+			r.Spec.Go.Image = val
 		}
 	}
 }
@@ -121,14 +128,17 @@ func (r *Instrumentation) validate() error {
 	if err := r.validateEnv(r.Spec.DotNet.Env); err != nil {
 		return err
 	}
+	if err := r.validateEnv(r.Spec.Go.Env); err != nil {
+		return err
+	}
 
 	return nil
 }
 
 func (r *Instrumentation) validateEnv(envs []corev1.EnvVar) error {
 	for _, env := range envs {
-		if !strings.HasPrefix(env.Name, envPrefix) {
-			return fmt.Errorf("env name should start with \"NEW_RELIC_\": %s", env.Name)
+		if !strings.HasPrefix(env.Name, envNewRelicPrefix) && !strings.HasPrefix(env.Name, envOtelPrefix) {
+			return fmt.Errorf("env name should start with \"NEW_RELIC_\" or \"OTEL_\": %s", env.Name)
 		}
 	}
 	return nil

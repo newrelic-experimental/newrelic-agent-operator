@@ -20,13 +20,15 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
 )
 
 const (
-	envPythonPath    = "PYTHONPATH"
-	pythonPathPrefix = "/newrelic-instrumentation/newrelic/bootstrap"
-	pythonPathSuffix = "/newrelic-instrumentation"
+	envPythonPath           = "PYTHONPATH"
+	pythonPathPrefix        = "/newrelic-instrumentation/newrelic/bootstrap"
+	pythonPathSuffix        = "/newrelic-instrumentation"
+	pythonVolumeName        = volumeName + "-python"
+	pythonInitContainerName = initContainerName + "-python"
 )
 
 func injectPythonSDK(pythonSpec v1alpha1.Python, pod corev1.Pod, index int) (corev1.Pod, error) {

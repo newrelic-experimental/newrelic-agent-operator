@@ -18,12 +18,14 @@ package instrumentation
 import (
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
 )
 
 const (
-	envJavaToolsOptions = "JAVA_TOOL_OPTIONS"
-	javaJVMArgument     = " -javaagent:/newrelic-instrumentation/newrelic-agent.jar"
+	envJavaToolsOptions   = "JAVA_TOOL_OPTIONS"
+	javaJVMArgument       = " -javaagent:/newrelic-instrumentation/newrelic-agent.jar"
+	javaInitContainerName = initContainerName + "-java"
+	javaVolumeName        = volumeName + "-java"
 )
 
 func injectJavaagent(javaSpec v1alpha1.Java, pod corev1.Pod, index int) (corev1.Pod, error) {

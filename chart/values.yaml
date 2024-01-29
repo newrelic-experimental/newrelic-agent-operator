@@ -18,8 +18,8 @@ controllerManager:
   ## Provide New Relic Agent Operator manager container image and resources.
   manager:
     image:
-      repository: ghcr.io/andrew-lozoya/newrelic-agent-operator/newrelic-agent-operator
-      tag: v0.0.4
+      repository: ghcr.io/newrelic-experimental/newrelic-agent-operator/newrelic-agent-operator
+      tag: main
     resources:
       requests:
         cpu: 100m

@@ -5,13 +5,14 @@
 # - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
 VERSION ?= "$(shell git describe --tags | sed 's/^v//')"
 VERSION_DATE ?= $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
-VERSION_PKG ?= "github.com/andrew-lozoya/newrelic-aganet-operator/internal/version"
+VERSION_PKG ?= "github.com/newrelic-experimental/newrelic-aganet-operator/internal/version"
 OPERATOR_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-agent-operator | awk -F= '{print $$2}')"
 NEWRELIC_INSTRUMENTATION_JAVA_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-instrumentation-java | awk -F= '{print $$2}')"
 NEWRELIC_INSTRUMENTATION_NODEJS_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-instrumentation-nodejs | awk -F= '{print $$2}')"
 NEWRELIC_INSTRUMENTATION_PYTHON_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-instrumentation-python | awk -F= '{print $$2}')"
 NEWRELIC_INSTRUMENTATION_DOTNET_VERSION ?= "$(shell grep -v '\#' versions.txt | grep newrelic-instrumentation-dotnet | awk -F= '{print $$2}')"
-LD_FLAGS ?= "-X ${VERSION_PKG}.version=${VERSION} -X ${VERSION_PKG}.buildDate=${VERSION_DATE} -X ${VERSION_PKG}.autoInstrumentationJava=${NEWRELIC_INSTRUMENTATION_JAVA_VERSION} -X ${VERSION_PKG}.autoInstrumentationNodeJS=${NEWRELIC_INSTRUMENTATION_NODEJS_VERSION} -X ${VERSION_PKG}.autoInstrumentationPython=${NEWRELIC_INSTRUMENTATION_PYTHON_VERSION} -X ${VERSION_PKG}.autoInstrumentationDotNet=${NEWRELIC_INSTRUMENTATION_DOTNET_VERSION}"
+AUTO_INSTRUMENTATION_GO_VERSION ?= "$(shell grep -v '\#' versions.txt | grep autoinstrumentation-go | awk -F= '{print $$2}')"
+LD_FLAGS ?= "-X ${VERSION_PKG}.version=${VERSION} -X ${VERSION_PKG}.buildDate=${VERSION_DATE} -X ${VERSION_PKG}.autoInstrumentationJava=${NEWRELIC_INSTRUMENTATION_JAVA_VERSION} -X ${VERSION_PKG}.autoInstrumentationNodeJS=${NEWRELIC_INSTRUMENTATION_NODEJS_VERSION} -X ${VERSION_PKG}.autoInstrumentationPython=${NEWRELIC_INSTRUMENTATION_PYTHON_VERSION} -X ${VERSION_PKG}.autoInstrumentationGo=${AUTO_INSTRUMENTATION_GO_VERSION} -X ${VERSION_PKG}.autoInstrumentationDotNet=${NEWRELIC_INSTRUMENTATION_DOTNET_VERSION}"
 ARCH ?= $(shell go env GOARCH)
 
 # Image URL to use all building/pushing image targets

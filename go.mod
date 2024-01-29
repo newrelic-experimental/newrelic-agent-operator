@@ -1,4 +1,4 @@
-module github.com/andrew-lozoya/newrelic-agent-operator
+module github.com/newrelic-experimental/newrelic-agent-operator
 
 go 1.20
 

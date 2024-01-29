@@ -21,7 +21,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	"github.com/andrew-lozoya/newrelic-agent-operator/api/v1alpha1"
+	"github.com/newrelic-experimental/newrelic-agent-operator/api/v1alpha1"
 )
 
 const (
@@ -33,6 +33,8 @@ const (
 	dotNetCoreClrProfilerID             = "{36032161-FFC0-4B61-B559-F6C5D41BAE5A}"
 	dotNetCoreClrProfilerPath           = "/newrelic-instrumentation/libNewRelicProfiler.so"
 	dotNetNewrelicHomePath              = "/newrelic-instrumentation"
+	dotnetVolumeName                    = volumeName + "-dotnet"
+	dotnetInitContainerName             = initContainerName + "-dotnet"
 )
 
 func injectDotNetSDK(dotNetSpec v1alpha1.DotNet, pod corev1.Pod, index int) (corev1.Pod, error) {

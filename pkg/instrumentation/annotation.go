@@ -25,11 +25,18 @@ import (
 const (
 	// indicates whether newrelic agents should be injected or not.
 	// Possible values are "true", "false" or "<Instrumentation>" name.
-	annotationInjectJava          = "instrumentation.newrelic.com/inject-java"
-	annotationInjectNodeJS        = "instrumentation.newrelic.com/inject-nodejs"
-	annotationInjectPython        = "instrumentation.newrelic.com/inject-python"
-	annotationInjectDotNet        = "instrumentation.newrelic.com/inject-dotnet"
-	annotationInjectContainerName = "instrumentation.newrelic.com/container-names"
+	annotationInjectJava                 = "instrumentation.newrelic.com/inject-java"
+	annotationInjectJavaContainersName   = "instrumentation.newrelic.com/java-container-names"
+	annotationInjectNodeJS               = "instrumentation.newrelic.com/inject-nodejs"
+	annotationInjectNodeJSContainersName = "instrumentation.newrelic.com/nodejs-container-names"
+	annotationInjectPython               = "instrumentation.newrelic.com/inject-python"
+	annotationInjectPythonContainersName = "instrumentation.newrelic.com/python-container-names"
+	annotationInjectDotNet               = "instrumentation.newrelic.com/inject-dotnet"
+	annotationInjectDotnetContainersName = "instrumentation.newrelic.com/dotnet-container-names"
+	annotationInjectContainerName        = "instrumentation.newrelic.com/container-name"
+	annotationInjectGo                   = "instrumentation.opentelemetry.io/inject-go"
+	annotationGoExecPath                 = "instrumentation.opentelemetry.io/otel-go-auto-target-exe"
+	annotationInjectGoContainerName      = "instrumentation.opentelemetry.io/go-container-name"
 )
 
 // annotationValue returns the effective annotation value, based on the annotations from the pod and namespace.

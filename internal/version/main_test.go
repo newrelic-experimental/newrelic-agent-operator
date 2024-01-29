@@ -37,3 +37,7 @@ func TestAutoInstrumentationPythonFallbackVersion(t *testing.T) {
 func TestAutoInstrumentationDotNetFallbackVersion(t *testing.T) {
 	assert.Equal(t, "0.0.0", AutoInstrumentationDotNet())
 }
+
+func TestAutoInstrumentationGoFallbackVersion(t *testing.T) {
+	assert.Equal(t, "0.0.0", AutoInstrumentationGo())
+}
