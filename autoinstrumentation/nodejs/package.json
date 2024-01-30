@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "newrelic": "11.10.1",
-    "@newrelic/aws-sdk": "7.0.2",
     "@newrelic/native-metrics": "10.0.1"
   }
 }
