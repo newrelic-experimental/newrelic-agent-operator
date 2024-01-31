@@ -16,7 +16,6 @@ limitations under the License.
 package instrumentation
 
 import (
-	"errors"
 	"fmt"
 
 	corev1 "k8s.io/api/core/v1"
@@ -25,37 +24,21 @@ import (
 )
 
 const (
-	envDotNetCoreClrEnableProfiling     = "CORECLR_ENABLE_PROFILING"
-	envDotNetCoreClrProfiler            = "CORECLR_PROFILER"
-	envDotNetCoreClrProfilerPath        = "CORECLR_PROFILER_PATH"
-	envDotNetNewrelicHome               = "CORECLR_NEWRELIC_HOME"
-	dotNetCoreClrEnableProfilingEnabled = "1"
-	dotNetCoreClrProfilerID             = "{36032161-FFC0-4B61-B559-F6C5D41BAE5A}"
-	dotNetCoreClrProfilerPath           = "/newrelic-instrumentation/libNewRelicProfiler.so"
-	dotNetNewrelicHomePath              = "/newrelic-instrumentation"
-	dotnetVolumeName                    = volumeName + "-dotnet"
-	dotnetInitContainerName             = initContainerName + "-dotnet"
+	envPhpsymbolicOption      = "NR_INSTALL_USE_CP_NOT_LN"
+	phpSymbolicOptionArgument = "1"
+	envPhpSilentOption        = "NR_INSTALL_SILENT"
+	phpSilentOptionArgument   = "1"
+	phpInitContainerName      = initContainerName + "-php"
+	phpVolumeName             = volumeName + "-php"
+	phpInstallArgument        = "/newrelic-instrumentation/newrelic-install install && sed -i -e \"s/PHP Application/$NEW_RELIC_APP_NAME/g; s/REPLACE_WITH_REAL_KEY/$NEW_RELIC_LICENSE_KEY/g\" /usr/local/etc/php/conf.d/newrelic.ini && "
 )
 
-func injectDotNetSDK(dotNetSpec v1alpha1.DotNet, pod corev1.Pod, index int) (corev1.Pod, error) {
-
+func injectPhpagent(phpSpec v1alpha1.Php, pod corev1.Pod, index int) (corev1.Pod, error) {
 	// caller checks if there is at least one container.
 	container := &pod.Spec.Containers[index]
 
-	// check if CORECLR_NEWRELIC_HOME env var is already set in the container
-	// if it is already set, then we assume that .NET newrelic-instrumentation is already configured for this container
-	if getIndexOfEnv(container.Env, envDotNetNewrelicHome) > -1 {
-		return pod, errors.New("CORECLR_NEWRELIC_HOME environment variable is already set in the container")
-	}
-
-	// check if CORECLR_NEWRELIC_HOME env var is already set in the .NET instrumentatiom spec
-	// if it is already set, then we assume that .NET newrelic-instrumentation is already configured for this container
-	if getIndexOfEnv(dotNetSpec.Env, envDotNetNewrelicHome) > -1 {
-		return pod, errors.New("CORECLR_NEWRELIC_HOME environment variable is already set in the .NET instrumentation spec")
-	}
-
-	// inject .NET instrumentation spec env vars.
-	for _, env := range dotNetSpec.Env {
+	// inject PHP instrumentation spec env vars.
+	for _, env := range phpSpec.Env {
 		idx := getIndexOfEnv(container.Env, env.Name)
 		if idx == -1 {
 			container.Env = append(container.Env, env)
@@ -63,17 +46,13 @@ func injectDotNetSDK(dotNetSpec v1alpha1.DotNet, pod corev1.Pod, index int) (cor
 	}
 
 	const (
-		doNotConcatEnvValues = false
-		concatEnvValues      = true
+		phpConcatEnvValues = false
+		concatEnvValues    = true
 	)
 
-	setDotNetEnvVar(container, envDotNetCoreClrEnableProfiling, dotNetCoreClrEnableProfilingEnabled, doNotConcatEnvValues)
+	setPhpEnvVar(container, envPhpsymbolicOption, phpSymbolicOptionArgument, phpConcatEnvValues)
 
-	setDotNetEnvVar(container, envDotNetCoreClrProfiler, dotNetCoreClrProfilerID, doNotConcatEnvValues)
-
-	setDotNetEnvVar(container, envDotNetCoreClrProfilerPath, dotNetCoreClrProfilerPath, doNotConcatEnvValues)
-
-	setDotNetEnvVar(container, envDotNetNewrelicHome, dotNetNewrelicHomePath, doNotConcatEnvValues)
+	setPhpEnvVar(container, envPhpSilentOption, phpSilentOptionArgument, phpConcatEnvValues)
 
 	container.VolumeMounts = append(container.VolumeMounts, corev1.VolumeMount{
 		Name:      volumeName,
@@ -90,7 +69,7 @@ func injectDotNetSDK(dotNetSpec v1alpha1.DotNet, pod corev1.Pod, index int) (cor
 
 		pod.Spec.InitContainers = append(pod.Spec.InitContainers, corev1.Container{
 			Name:    initContainerName,
-			Image:   dotNetSpec.Image,
+			Image:   phpSpec.Image,
 			Command: []string{"cp", "-a", "/instrumentation/.", "/newrelic-instrumentation/"},
 			VolumeMounts: []corev1.VolumeMount{{
 				Name:      volumeName,
@@ -98,13 +77,20 @@ func injectDotNetSDK(dotNetSpec v1alpha1.DotNet, pod corev1.Pod, index int) (cor
 			}},
 		})
 	}
+
+	execCmd, ok := pod.Annotations[annotationPhpExecCmd]
+	if ok {
+		// Add phpInstallArgument to the command field.
+		container.Command = append(container.Command, "/bin/sh", "-c", phpInstallArgument+execCmd)
+	}
+
 	return pod, nil
 }
 
 // setDotNetEnvVar function sets env var to the container if not exist already.
 // value of concatValues should be set to true if the env var supports multiple values separated by :.
 // If it is set to false, the original container's env var value has priority.
-func setDotNetEnvVar(container *corev1.Container, envVarName string, envVarValue string, concatValues bool) {
+func setPhpEnvVar(container *corev1.Container, envVarName string, envVarValue string, concatValues bool) {
 	idx := getIndexOfEnv(container.Env, envVarName)
 	if idx < 0 {
 		container.Env = append(container.Env, corev1.EnvVar{

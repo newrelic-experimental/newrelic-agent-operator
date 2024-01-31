@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,6 +39,7 @@ type options struct {
 	autoInstrumentationJavaImage   string
 	autoInstrumentationPythonImage string
 	autoInstrumentationNodeJSImage string
+	autoInstrumentationPhpImage    string
 	onOpenShiftRoutesChange        changeHandler
 	labelsFilter                   []string
 	openshiftRoutes                openshiftRoutesStore
@@ -101,6 +102,12 @@ func WithAutoInstrumentationPythonImage(s string) Option {
 func WithAutoInstrumentationDotNetImage(s string) Option {
 	return func(o *options) {
 		o.autoInstrumentationDotNetImage = s
+	}
+}
+
+func WithAutoInstrumentationPhpImage(s string) Option {
+	return func(o *options) {
+		o.autoInstrumentationPhpImage = s
 	}
 }
 

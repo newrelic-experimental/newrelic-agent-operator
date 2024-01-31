@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -66,6 +66,10 @@ type InstrumentationSpec struct {
 	// DotNet defines configuration for DotNet auto-instrumentation.
 	// +optional
 	DotNet DotNet `json:"dotnet,omitempty"`
+
+	// Php defines configuration for DotNet auto-instrumentation.
+	// +optional
+	Php Php `json:"php,omitempty"`
 
 	// Go defines configuration for Go auto-instrumentation.
 	// When using Go auto-instrumentation you must provide a value for the OTEL_GO_AUTO_TARGET_EXE env var via the
@@ -146,6 +150,17 @@ type Python struct {
 }
 
 type DotNet struct {
+	// Image is a container image with DotNet agent and auto-instrumentation.
+	// +optional
+	Image string `json:"image,omitempty"`
+
+	// Env defines DotNet specific env vars.
+	// If the former var had been defined, then the other vars would be ignored.
+	// +optional
+	Env []corev1.EnvVar `json:"env,omitempty"`
+}
+
+type Php struct {
 	// Image is a container image with DotNet agent and auto-instrumentation.
 	// +optional
 	Image string `json:"image,omitempty"`

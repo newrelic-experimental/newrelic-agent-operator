@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ const (
 	AnnotationDefaultAutoInstrumentationNodeJS = "instrumentation.newrelic.com/default-auto-instrumentation-nodejs-image"
 	AnnotationDefaultAutoInstrumentationPython = "instrumentation.newrelic.com/default-auto-instrumentation-python-image"
 	AnnotationDefaultAutoInstrumentationDotNet = "instrumentation.newrelic.com/default-auto-instrumentation-dotnet-image"
+	AnnotationDefaultAutoInstrumentationPhp    = "instrumentation.newrelic.com/default-auto-instrumentation-php-image"
 	AnnotationDefaultAutoInstrumentationGo     = "instrumentation.newrelic.com/default-auto-instrumentation-go-image"
 	envNewRelicPrefix                          = "NEW_RELIC_"
 	envOtelPrefix                              = "OTEL_"
@@ -77,6 +78,11 @@ func (r *Instrumentation) Default() {
 	}
 	if r.Spec.DotNet.Image == "" {
 		if val, ok := r.Annotations[AnnotationDefaultAutoInstrumentationDotNet]; ok {
+			r.Spec.DotNet.Image = val
+		}
+	}
+	if r.Spec.Php.Image == "" {
+		if val, ok := r.Annotations[AnnotationDefaultAutoInstrumentationPhp]; ok {
 			r.Spec.DotNet.Image = val
 		}
 	}
@@ -126,6 +132,9 @@ func (r *Instrumentation) validate() error {
 		return err
 	}
 	if err := r.validateEnv(r.Spec.DotNet.Env); err != nil {
+		return err
+	}
+	if err := r.validateEnv(r.Spec.Php.Env); err != nil {
 		return err
 	}
 	if err := r.validateEnv(r.Spec.Go.Env); err != nil {

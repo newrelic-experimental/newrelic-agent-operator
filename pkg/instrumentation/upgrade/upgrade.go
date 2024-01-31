@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ type InstrumentationUpgrade struct {
 	DefaultAutoInstNodeJS string
 	DefaultAutoInstPython string
 	DefaultAutoInstDotNet string
+	DefaultAutoInstPhp    string
 	DefaultAutoInstGo     string
 }
 
@@ -102,6 +103,14 @@ func (u *InstrumentationUpgrade) upgrade(_ context.Context, inst v1alpha1.Instru
 		if inst.Spec.DotNet.Image == autoInstDotnet {
 			inst.Spec.DotNet.Image = u.DefaultAutoInstDotNet
 			inst.Annotations[v1alpha1.AnnotationDefaultAutoInstrumentationDotNet] = u.DefaultAutoInstDotNet
+		}
+	}
+	autoInstPhp := inst.Annotations[v1alpha1.AnnotationDefaultAutoInstrumentationPhp]
+	if autoInstPhp != "" {
+		// upgrade the image only if the image matches the annotation
+		if inst.Spec.Php.Image == autoInstPhp {
+			inst.Spec.Php.Image = u.DefaultAutoInstPhp
+			inst.Annotations[v1alpha1.AnnotationDefaultAutoInstrumentationDotNet] = u.DefaultAutoInstPhp
 		}
 	}
 	autoInstGo := inst.Annotations[v1alpha1.AnnotationDefaultAutoInstrumentationGo]

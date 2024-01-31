@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,6 +36,10 @@ func TestAutoInstrumentationPythonFallbackVersion(t *testing.T) {
 
 func TestAutoInstrumentationDotNetFallbackVersion(t *testing.T) {
 	assert.Equal(t, "0.0.0", AutoInstrumentationDotNet())
+}
+
+func TestAutoInstrumentationPhpFallbackVersion(t *testing.T) {
+	assert.Equal(t, "0.0.0.0", AutoInstrumentationPhp())
 }
 
 func TestAutoInstrumentationGoFallbackVersion(t *testing.T) {

@@ -20,8 +20,8 @@ spec:
         version: v1
       version: v1alpha1
   description: The New Relic agent operator is an admission controller API that enables
-    the instrumentation of application workloads (including Java, NodeJS, DotNet,
-    and Python) using a custom resource definition.
+    the instrumentation of application workloads (including Java, NodeJS, Go, DotNet,
+    PHP, and Python) using a custom resource definition.
   displayName: New Relic Agent Operator
   icon:
   - base64data: ""

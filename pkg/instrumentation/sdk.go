@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -105,6 +105,17 @@ func (i *sdkInjector) inject(ctx context.Context, insts languageInstrumentations
 		pod, err = injectDotNetSDK(newrelic.Spec.DotNet, pod, index)
 		if err != nil {
 			i.logger.Info("Skipping DotNet agent injection", "reason", err.Error(), "container", pod.Spec.Containers[index].Name)
+		} else {
+			pod = i.injectNewrelicConfig(ctx, newrelic, ns, pod, index)
+		}
+	}
+	if insts.Php != nil {
+		newrelic := *insts.Php
+		var err error
+		i.logger.V(1).Info("injecting Php instrumentation into pod", "newrelic-namespace", newrelic.Namespace, "newrelic-name", newrelic.Name)
+		pod, err = injectPhpagent(newrelic.Spec.Php, pod, index)
+		if err != nil {
+			i.logger.Info("Skipping Php agent injection", "reason", err.Error(), "container", pod.Spec.Containers[index].Name)
 		} else {
 			pod = i.injectNewrelicConfig(ctx, newrelic, ns, pod, index)
 		}

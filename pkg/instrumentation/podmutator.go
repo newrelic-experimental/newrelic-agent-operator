@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -45,6 +45,7 @@ type languageInstrumentations struct {
 	NodeJS *v1alpha1.Instrumentation
 	Python *v1alpha1.Instrumentation
 	DotNet *v1alpha1.Instrumentation
+	Php    *v1alpha1.Instrumentation
 	Go     *v1alpha1.Instrumentation
 }
 

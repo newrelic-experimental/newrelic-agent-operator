@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -86,6 +86,7 @@ func main() {
 		autoInstrumentationNodeJS string
 		autoInstrumentationPython string
 		autoInstrumentationDotNet string
+		autoInstrumentationPhp    string
 		autoInstrumentationGo     string
 		labelsFilter              []string
 		webhookPort               int
@@ -101,6 +102,7 @@ func main() {
 	pflag.StringVar(&autoInstrumentationNodeJS, "auto-instrumentation-nodejs-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-nodejs:%s", v.AutoInstrumentationNodeJS), "The default New Relic NodeJS instrumentation image. This image is used when no image is specified in the CustomResource.")
 	pflag.StringVar(&autoInstrumentationPython, "auto-instrumentation-python-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-python:%s", v.AutoInstrumentationPython), "The default New Relic Python instrumentation image. This image is used when no image is specified in the CustomResource.")
 	pflag.StringVar(&autoInstrumentationDotNet, "auto-instrumentation-dotnet-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-dotnet:%s", v.AutoInstrumentationDotNet), "The default New Relic DotNet instrumentation image. This image is used when no image is specified in the CustomResource.")
+	pflag.StringVar(&autoInstrumentationPhp, "auto-instrumentation-php-image", fmt.Sprintf("ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-php:%s", v.AutoInstrumentationDotNet), "The default New Relic Php instrumentation image. This image is used when no image is specified in the CustomResource.")
 	pflag.StringVar(&autoInstrumentationGo, "auto-instrumentation-go-image", fmt.Sprintf("ghcr.io/open-telemetry/opentelemetry-go-instrumentation/autoinstrumentation-go:%s", v.AutoInstrumentationGo), "The default Opentelemtry Go instrumentation image. This image is used when no image is specified in the CustomResource.")
 
 	pflag.StringArrayVar(&labelsFilter, "labels", []string{}, "Labels to filter away from propagating onto deploys")
@@ -118,6 +120,7 @@ func main() {
 		"auto-instrumentation-nodejs", autoInstrumentationNodeJS,
 		"auto-instrumentation-python", autoInstrumentationPython,
 		"auto-instrumentation-dotnet", autoInstrumentationDotNet,
+		"auto-instrumentation-php", autoInstrumentationPhp,
 		"auto-instrumentation-go", autoInstrumentationGo,
 		"build-date", v.BuildDate,
 		"go-version", v.Go,
@@ -142,6 +145,7 @@ func main() {
 		config.WithAutoInstrumentationNodeJSImage(autoInstrumentationNodeJS),
 		config.WithAutoInstrumentationPythonImage(autoInstrumentationPython),
 		config.WithAutoInstrumentationDotNetImage(autoInstrumentationDotNet),
+		config.WithAutoInstrumentationPhpImage(autoInstrumentationPhp),
 		config.WithAutoInstrumentationGoImage(autoInstrumentationGo),
 		config.WithAutoDetect(ad),
 		config.WithLabelFilters(labelsFilter),
@@ -203,6 +207,7 @@ func main() {
 					v1alpha1.AnnotationDefaultAutoInstrumentationNodeJS: autoInstrumentationNodeJS,
 					v1alpha1.AnnotationDefaultAutoInstrumentationPython: autoInstrumentationPython,
 					v1alpha1.AnnotationDefaultAutoInstrumentationDotNet: autoInstrumentationDotNet,
+					v1alpha1.AnnotationDefaultAutoInstrumentationPhp:    autoInstrumentationPhp,
 					v1alpha1.AnnotationDefaultAutoInstrumentationGo:     autoInstrumentationGo,
 				},
 			},
@@ -255,6 +260,7 @@ func addDependencies(_ context.Context, mgr ctrl.Manager, cfg config.Config, v v
 			DefaultAutoInstNodeJS: cfg.AutoInstrumentationNodeJSImage(),
 			DefaultAutoInstPython: cfg.AutoInstrumentationPythonImage(),
 			DefaultAutoInstDotNet: cfg.AutoInstrumentationDotNetImage(),
+			DefaultAutoInstPhp:    cfg.AutoInstrumentationPhpImage(),
 			DefaultAutoInstGo:     cfg.AutoInstrumentationGoImage(),
 			Client:                mgr.GetClient(),
 		}

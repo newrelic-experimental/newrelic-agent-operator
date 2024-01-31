@@ -63,6 +63,8 @@ spec:
     image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-python:latest
   dotnet:
     image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-dotnet:latest
+  php:
+    image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-php:latest
   go:
     image: ghcr.io/open-telemetry/opentelemetry-go-instrumentation/autoinstrumentation-go:latest
 ```

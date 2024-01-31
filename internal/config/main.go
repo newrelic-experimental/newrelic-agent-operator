@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@ type Config struct {
 	autoInstrumentationNodeJSImage string
 	autoInstrumentationJavaImage   string
 	autoInstrumentationGoImage     string
+	autoInstrumentationPhpImage    string
 	onOpenShiftRoutesChange        changeHandler
 	labelsFilter                   []string
 	openshiftRoutes                openshiftRoutesStore
@@ -72,6 +73,7 @@ func New(opts ...Option) Config {
 		autoInstrumentationNodeJSImage: o.autoInstrumentationNodeJSImage,
 		autoInstrumentationPythonImage: o.autoInstrumentationPythonImage,
 		autoInstrumentationDotNetImage: o.autoInstrumentationDotNetImage,
+		autoInstrumentationPhpImage:    o.autoInstrumentationPhpImage,
 		autoInstrumentationGoImage:     o.autoInstrumentationGoImage,
 		labelsFilter:                   o.labelsFilter,
 		autoscalingVersion:             o.autoscalingVersion,
@@ -153,6 +155,11 @@ func (c *Config) AutoInstrumentationPythonImage() string {
 // AutoInstrumentationDotNetImage returns New Relic DotNet auto-instrumentation container image.
 func (c *Config) AutoInstrumentationDotNetImage() string {
 	return c.autoInstrumentationDotNetImage
+}
+
+// AutoInstrumentationDotNetImage returns New Relic DotNet auto-instrumentation container image.
+func (c *Config) AutoInstrumentationPhpImage() string {
+	return c.autoInstrumentationPhpImage
 }
 
 // AutoInstrumentationGoImage returns Opentelemtrey Go auto-instrumentation container image.

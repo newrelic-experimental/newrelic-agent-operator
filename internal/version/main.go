@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ var (
 	autoInstrumentationNodeJS string
 	autoInstrumentationPython string
 	autoInstrumentationDotNet string
+	autoInstrumentationPhp    string
 	autoInstrumentationGo     string
 )
 
@@ -41,6 +42,7 @@ type Version struct {
 	AutoInstrumentationNodeJS string `json:"newrelic-instrumentation-nodejs"`
 	AutoInstrumentationPython string `json:"newrelic-instrumentation-python"`
 	AutoInstrumentationDotNet string `json:"newrelic-instrumentation-dotnet"`
+	AutoInstrumentationPhp    string `json:"newrelic-instrumentation-php"`
 	AutoInstrumentationGo     string `json:"autoinstrumentation-go"`
 }
 
@@ -54,13 +56,14 @@ func Get() Version {
 		AutoInstrumentationNodeJS: AutoInstrumentationNodeJS(),
 		AutoInstrumentationPython: AutoInstrumentationPython(),
 		AutoInstrumentationDotNet: AutoInstrumentationDotNet(),
+		AutoInstrumentationPhp:    AutoInstrumentationPhp(),
 		AutoInstrumentationGo:     AutoInstrumentationGo(),
 	}
 }
 
 func (v Version) String() string {
 	return fmt.Sprintf(
-		"Version(Operator='%v', BuildDate='%v', Go='%v', AutoInstrumentationJava='%v', AutoInstrumentationNodeJS='%v', AutoInstrumentationPython='%v', AutoInstrumentationDotNet='%v', AutoInstrumentationGo='%v')",
+		"Version(Operator='%v', BuildDate='%v', Go='%v', AutoInstrumentationJava='%v', AutoInstrumentationNodeJS='%v', AutoInstrumentationPython='%v', AutoInstrumentationDotNet='%v', AutoInstrumentationPhp='%v', AutoInstrumentationGo='%v')",
 		v.Operator,
 		v.BuildDate,
 		v.Go,
@@ -68,6 +71,7 @@ func (v Version) String() string {
 		v.AutoInstrumentationNodeJS,
 		v.AutoInstrumentationPython,
 		v.AutoInstrumentationDotNet,
+		v.AutoInstrumentationPhp,
 		v.AutoInstrumentationGo,
 	)
 }
@@ -98,6 +102,13 @@ func AutoInstrumentationDotNet() string {
 		return autoInstrumentationDotNet
 	}
 	return "0.0.0"
+}
+
+func AutoInstrumentationPhp() string {
+	if len(autoInstrumentationPhp) > 0 {
+		return autoInstrumentationPhp
+	}
+	return "0.0.0.0"
 }
 
 func AutoInstrumentationGo() string {
