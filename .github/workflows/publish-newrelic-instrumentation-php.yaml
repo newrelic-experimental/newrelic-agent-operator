@@ -1,4 +1,4 @@
-name: "Publish php Newrelic-Instrumentation"
+name: "Publish PHP Newrelic-Instrumentation"
 
 on:
   push:

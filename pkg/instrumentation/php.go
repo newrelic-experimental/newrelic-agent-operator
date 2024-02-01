@@ -30,7 +30,7 @@ const (
 	phpSilentOptionArgument   = "1"
 	phpInitContainerName      = initContainerName + "-php"
 	phpVolumeName             = volumeName + "-php"
-	phpInstallArgument        = "/newrelic-instrumentation/newrelic-install install && sed -i -e \"s/PHP Application/$NEW_RELIC_APP_NAME/g; s/REPLACE_WITH_REAL_KEY/$NEW_RELIC_LICENSE_KEY/g\" /usr/local/etc/php/conf.d/newrelic.ini && "
+	phpInstallArgument        = "/newrelic-instrumentation/newrelic-install install && sed -i -e \"s/PHP Application/$NEW_RELIC_APP_NAME/g; s/REPLACE_WITH_REAL_KEY/$NEW_RELIC_LICENSE_KEY/g\" /usr/local/etc/php/conf.d/newrelic.ini"
 )
 
 func injectPhpagent(phpSpec v1alpha1.Php, pod corev1.Pod, index int) (corev1.Pod, error) {
@@ -78,10 +78,13 @@ func injectPhpagent(phpSpec v1alpha1.Php, pod corev1.Pod, index int) (corev1.Pod
 		})
 	}
 
+	// Continue with the function regardless of whether annotationPhpExecCmd is present or not
 	execCmd, ok := pod.Annotations[annotationPhpExecCmd]
 	if ok {
 		// Add phpInstallArgument to the command field.
-		container.Command = append(container.Command, "/bin/sh", "-c", phpInstallArgument+execCmd)
+		container.Command = append(container.Command, "/bin/sh", "-c", phpInstallArgument+" && "+execCmd)
+	} else {
+		container.Command = append(container.Command, "/bin/sh", "-c", phpInstallArgument)
 	}
 
 	return pod, nil
