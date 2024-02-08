@@ -4,7 +4,11 @@
 <strong>newrelic-agent-operator</strong> is an implementation of a Kubernetes [Operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator), that manages auto-instrumentation of the workloads using New Relic APM agents.
 
 ## Description
-If you are looking for configuring New Relic APM agents in your Kubernetes cluster, then you are on right page. This will guide you to configure APM agent in seamless manner. The idea behind <strong>newrelic-agent-operator</strong> is to provide simple and efficient installation to the users. It uses Kubernetes operator to create and configure custom resource called <strong>instrumentation</strong>. This custom resource provides higher-level abstraction for language specific agent configuration in the Kubernetes cluster. Also, underlying <strong>newrelic-agent-operator</strong> leverages Init containers to execute the required one-time agent setup,  enabling seamless auto-instrumentation functionality. 
+If you are looking for an automated way to enable New Relic APM agents for applications running in your Kubernetes cluster, then you are in the right place. This will guide you in configuring APM agents in seamless manner. The idea behind the <strong>newrelic-agent-operator</strong> is to provide simple and efficient installation to the users. It uses a Kubernetes operator to create and configure a custom resource called <strong>Instrumentation</strong>. This custom resource provides higher-level abstraction for language specific agent configuration(s) in the Kubernetes cluster. Also, the underlying <strong>newrelic-agent-operator</strong> leverages Init containers to execute the required one-time agent setup, enabling seamless auto-instrumentation functionality. 
+
+## Pre-requisites
+
+- [Cert Manager](https://cert-manager.io/docs/installation/) will need to be installed in your cluster
 
 ## Installation
 You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) or [Minikube](https://minikube.sigs.k8s.io/docs/start/) to get a local cluster for testing, or run against a remote cluster.
