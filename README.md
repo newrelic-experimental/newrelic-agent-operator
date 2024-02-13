@@ -14,19 +14,18 @@ If you are looking for an automated way to enable New Relic APM agents for appli
 You’ll need a Kubernetes cluster to run against. You can use [KIND](https://sigs.k8s.io/kind) or [Minikube](https://minikube.sigs.k8s.io/docs/start/) to get a local cluster for testing, or run against a remote cluster.
 **Note:** Your controller will automatically use the current context in your kubeconfig file (i.e. whatever cluster `kubectl cluster-info` shows).
 
-1. Install newrelic-agent-operator using helm chart
+1. Install newrelic-agent-operator using the helm chart
 ```sh
 helm upgrade --install  newrelic-agent-operator chart/ --set licenseKey='licenseKey'
 ```
 
-2. Configure Instrumentation custom resource definition 
+2. Configure and Install the Instrumentation custom resource 
 
 ```sh
-kubectl apply -f config/samples/
+kubectl apply -f config/samples/instrumentation_v1alpha1_instrumentation.yaml
 ```
 
-## Getting Started
-Include annotation ```instrumentation.newrelic.com/inject-<python>: "true"``` in your workload deployment yaml. That's it. Ensure your application is deployed successfully and the operator successfully injected language specific auto-instrumentation.Then, you can visit [New Relic dashboard](https://one.newrelic.com/) here and find your application insights.
+Example `Instrumentation` custom resource: 
 
 ```
 ---
@@ -53,7 +52,7 @@ spec:
     env:
     # Example New Relic agent supported environment variables
       - name: NEW_RELIC_LABELS
-        value: "environment:auo-injection"
+        value: "environment:auto-injection"
     # Example overriding the appName configuration
     # - name: NEW_RELIC_POD_NAME
     #   valueFrom:
@@ -72,6 +71,58 @@ spec:
   go:
     image: ghcr.io/open-telemetry/opentelemetry-go-instrumentation/autoinstrumentation-go:latest
 ```
+
+## Getting Started
+
+In order to enable auto-instrumentation for your application, you'll need to add the appropriate annotation to your deployment manifest.
+
+```
+instrumentation.newrelic.com/inject-java: "true"
+instrumentation.newrelic.com/inject-nodejs: "true"
+instrumentation.newrelic.com/inject-python: "true"
+instrumentation.newrelic.com/inject-dotnet: "true"
+instrumentation.newrelic.com/inject-php: "true"
+instrumentation.newrelic.com/inject-go: "true"
+```
+
+Below is an example Java deployment:
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-petclinic
+spec:
+  selector:
+    matchLabels:
+      app: spring-petclinic
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spring-petclinic
+      annotations:
+        instrumentation.newrelic.com/inject-java: "true"
+    spec:
+      containers:
+        - name: spring-petclinic
+          image: ghcr.io/pavolloffay/spring-petclinic:latest
+          ports:
+            - containerPort: 8080
+          env:
+          - name: NEW_RELIC_APP_NAME
+            value: spring-petclinic-demo
+```
+
+After deploying your application, ensure the operator successfully injected the language-specific instrumentation initContainer.  
+
+```
+$ kubectl get pod spring-petclinic-7fcccbcbd6-qm8kr -n ao-demo -o jsonpath='{.spec.initContainers[*].name}'
+newrelic-instrumentation
+```
+
+Finally, login to your [New Relic](https://one.newrelic.com/) account and locate your APM application name under `Services - APM`.
+
 
 ## Building
 
