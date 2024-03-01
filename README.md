@@ -16,13 +16,19 @@ You’ll need a Kubernetes cluster to run against. You can use [KIND](https://si
 
 1. Install newrelic-agent-operator using the helm chart
 ```sh
-helm upgrade --install  newrelic-agent-operator chart/ --set licenseKey='licenseKey'
+helm upgrade --install newrelic-agent-operator chart/ --set licenseKey='licenseKey' -n newrelic --create-namespace
 ```
 
-2. Configure and Install the Instrumentation custom resource 
+2. Create a secret containing your New Relic license key within your namespace.
+
+```
+kubectl create secret generic newrelic-key-secret -n my-namespace --from-literal=new_relic_license_key=ABCD1234XYZ
+```
+
+3. Configure and Install the Instrumentation custom resource.  This is a namespaced resource so each namespace will need an `Instrumentation` resource defined within it.
 
 ```sh
-kubectl apply -f config/samples/instrumentation_v1alpha1_instrumentation.yaml
+kubectl apply -f config/samples/instrumentation_v1alpha1_instrumentation.yaml -n my-namespace
 ```
 
 Example `Instrumentation` custom resource: 
@@ -117,7 +123,7 @@ spec:
 After deploying your application, ensure the operator successfully injected the language-specific instrumentation initContainer.  
 
 ```
-$ kubectl get pod spring-petclinic-7fcccbcbd6-qm8kr -n ao-demo -o jsonpath='{.spec.initContainers[*].name}'
+$ kubectl get pod spring-petclinic-7fcccbcbd6-qm8kr -n my-namespace -o jsonpath='{.spec.initContainers[*].name}'
 newrelic-instrumentation
 ```
 
