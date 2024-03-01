@@ -16,7 +16,7 @@ You’ll need a Kubernetes cluster to run against. You can use [KIND](https://si
 
 1. Install newrelic-agent-operator using the helm chart
 ```sh
-helm upgrade --install newrelic-agent-operator chart/ --set licenseKey='licenseKey' -n newrelic --create-namespace
+helm upgrade --install newrelic-agent-operator chart/ --set licenseKey='ABCD1234XYZ' -n newrelic --create-namespace
 ```
 
 2. Create a secret containing your New Relic license key within your namespace.
