@@ -20,7 +20,7 @@ newrelic-instrumentation-python=9.8.0
 
 # Represents the current release of DotNet instrumentation.
 # Should match value in autoinstrumentation/dotnet/version.txt
-newrelic-instrumentation-dotnet=10.22.0
+newrelic-instrumentation-dotnet=10.23.0
 
 # Represents the current release of PHP instrumentation.
 # Should match value in autoinstrumentation/php/version.txt
