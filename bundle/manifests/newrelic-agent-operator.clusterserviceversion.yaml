@@ -33,10 +33,10 @@ metadata:
         }
       ]
     capabilities: Basic Install
-    createdAt: "2024-04-03T02:26:38Z"
+    createdAt: "2024-04-03T03:14:46Z"
     operators.operatorframework.io/builder: operator-sdk-v1.27.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4-alpha
-  name: newrelic-agent-operator.v0.1.4
+  name: newrelic-agent-operator.v0.1.5
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -153,7 +153,7 @@ spec:
                 - --enable-leader-election
                 - --zap-log-level=info
                 - --zap-time-encoding=rfc3339nano
-                image: ghcr.io/andrew-lozoya/newrelic-agent-operator/newrelic-agent-operator:0.1.4
+                image: ghcr.io/andrew-lozoya/newrelic-agent-operator/newrelic-agent-operator:0.1.5
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -258,7 +258,7 @@ spec:
   provider:
     name: New Relic
     url: newrelic.com
-  version: 0.1.4
+  version: 0.1.5
   webhookdefinitions:
   - admissionReviewVersions:
     - v1

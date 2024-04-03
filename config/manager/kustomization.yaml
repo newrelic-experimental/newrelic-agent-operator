@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: ghcr.io/andrew-lozoya/newrelic-agent-operator/newrelic-agent-operator
-  newTag: 0.1.4
+  newTag: 0.1.5

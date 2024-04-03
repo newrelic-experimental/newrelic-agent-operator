@@ -4,7 +4,7 @@
 # the docs as well.
 
 # Represents the current release of the New Relic Operator.
-newrelic-agent-operator=0.1.4
+newrelic-agent-operator=0.1.5
 
 # Represents the current release of Java instrumentation.
 # Should match autoinstrumentation/java/version.txt
