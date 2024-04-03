@@ -30,4 +30,5 @@ const (
 
 	EnvNewRelicAppName    = "NEW_RELIC_APP_NAME"
 	EnvNewRelicLicenseKey = "NEW_RELIC_LICENSE_KEY"
+	EnvNewRelicLabels     = "NEW_RELIC_LABELS"
 )
