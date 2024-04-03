@@ -83,7 +83,7 @@ func (r *Instrumentation) Default() {
 	}
 	if r.Spec.Php.Image == "" {
 		if val, ok := r.Annotations[AnnotationDefaultAutoInstrumentationPhp]; ok {
-			r.Spec.DotNet.Image = val
+			r.Spec.Php.Image = val
 		}
 	}
 	if r.Spec.Go.Image == "" {

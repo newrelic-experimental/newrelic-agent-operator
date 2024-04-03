@@ -63,11 +63,11 @@ type InstrumentationSpec struct {
 	// +optional
 	Python Python `json:"python,omitempty"`
 
-	// DotNet defines configuration for DotNet auto-instrumentation.
+	// DotNet defines configuration for dotnet auto-instrumentation.
 	// +optional
 	DotNet DotNet `json:"dotnet,omitempty"`
 
-	// Php defines configuration for DotNet auto-instrumentation.
+	// Php defines configuration for php auto-instrumentation.
 	// +optional
 	Php Php `json:"php,omitempty"`
 
@@ -161,11 +161,11 @@ type DotNet struct {
 }
 
 type Php struct {
-	// Image is a container image with DotNet agent and auto-instrumentation.
+	// Image is a container image with Php agent and auto-instrumentation.
 	// +optional
 	Image string `json:"image,omitempty"`
 
-	// Env defines DotNet specific env vars.
+	// Env defines Php specific env vars.
 	// If the former var had been defined, then the other vars would be ignored.
 	// +optional
 	Env []corev1.EnvVar `json:"env,omitempty"`

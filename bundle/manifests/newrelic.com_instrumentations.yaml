@@ -44,7 +44,7 @@ spec:
             description: InstrumentationSpec defines the desired state of Instrumentation
             properties:
               dotnet:
-                description: DotNet defines configuration for DotNet auto-instrumentation.
+                description: DotNet defines configuration for dotnet auto-instrumentation.
                 properties:
                   env:
                     description: Env defines DotNet specific env vars. If the former
@@ -719,10 +719,10 @@ spec:
                     type: string
                 type: object
               php:
-                description: Php defines configuration for DotNet auto-instrumentation.
+                description: Php defines configuration for php auto-instrumentation.
                 properties:
                   env:
-                    description: Env defines DotNet specific env vars. If the former
+                    description: Env defines Php specific env vars. If the former
                       var had been defined, then the other vars would be ignored.
                     items:
                       description: EnvVar represents an environment variable present
@@ -837,8 +837,7 @@ spec:
                       type: object
                     type: array
                   image:
-                    description: Image is a container image with DotNet agent and
-                      auto-instrumentation.
+                    description: Image is a container image with Php agent and auto-instrumentation.
                     type: string
                 type: object
               propagators:
