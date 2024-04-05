@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnetapp
+spec:
+  selector:
+    matchLabels:
+      app: aspnetapp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: aspnetapp
+      annotations:
+        instrumentation.newrelic.com/inject-dotnet: "true"
+    spec:
+      containers:
+        - name: aspnetapp
+          image: docker.io/avadhutp123/aspnetapp:latest  # source code of the application: https://github.com/dotnet/dotnet-docker/tree/main/samples/aspnetapp
+          env:
+            - name: ASPNETCORE_URLS
+              value: 'http://+:4000'
+          ports:
+            - containerPort: 4000

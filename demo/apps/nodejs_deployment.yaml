@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-hello-world
+spec:
+  selector:
+    matchLabels:
+      app: express-hello-world
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: express-hello-world
+      annotations:
+        instrumentation.newrelic.com/inject-nodejs: "true"
+    spec:
+      containers:
+        - name: express-hello-world
+          image: ghcr.io/anuraaga/express-hello-world:latest
+          ports:
+            - containerPort: 3000
