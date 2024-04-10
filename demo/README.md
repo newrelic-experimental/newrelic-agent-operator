@@ -49,5 +49,5 @@ kubectl create secret generic newrelic-key-secret -n ao-demo --from-literal=new_
 
 ```
 kubectl apply -f ./demo/apps/. -n ao-demo
-kubectl apply -f ./demo/loadgen/locust.yaml. -n ao-demo
+kubectl apply -f ./demo/loadgen/locust.yaml -n ao-demo
 ```
