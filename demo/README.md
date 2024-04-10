@@ -36,7 +36,7 @@ helm upgrade --install newrelic-agent-operator ./chart/ --set licenseKey='xxxxxx
 
 ## Create custom resource
 
-The custom resources referenced below use slightly different container images based on CPU architecture.
+The custom resources referenced below may require different container images based on your CPU architecture for local testing.  Use the appropriate file based on your test system.
 
 ### arm64
 ```
