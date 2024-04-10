@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Read version
-        run: echo "VERSION=$(cat autoinstrumentation/dotnet/-arm/version.txt)" >> $GITHUB_ENV
+        run: echo "VERSION=$(cat autoinstrumentation/dotnet-arm/version.txt)" >> $GITHUB_ENV
 
       - name: Docker meta
         id: meta
@@ -55,7 +55,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: autoinstrumentation/dotnet
+          context: autoinstrumentation/dotnet-arm
           platforms: linux/arm64
           push: true
           build-args: version=${{ env.VERSION }}
