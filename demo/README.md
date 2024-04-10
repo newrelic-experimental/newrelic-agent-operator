@@ -31,20 +31,13 @@ helm install \
   --set installCRDs=true
 ```
 
-## Clone the repo
-
-Clone this github repo and navigate to the `newrelic-agent-operator` directory.
-
-```
-git clone https://github.com/newrelic-experimental/newrelic-agent-operator && cd newrelic-agent-operator
-```
-
 ## Install the New Relic Agent Operator
 
-Install the `newrelic-agent-operator` into your cluster.
+Install the `newrelic-agent-operator` into your cluster using Helm.
 
 ```
-helm upgrade --install newrelic-agent-operator ./chart/ --set licenseKey='xxxxxxxxxxxxxxxx' -n newrelic
+helm repo add newrelic-agent-operator https://newrelic-experimental.github.io/newrelic-agent-operator
+helm upgrade --install newrelic-agent-operator newrelic-agent-operator/newrelic-agent-operator --set licenseKey='xxxxxxxxxxxxxxxx' -n newrelic
 ```
 
 ## Create your Instrumentation custom resource
