@@ -101,8 +101,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  annotations:
-    instrumentation.newrelic.com/inject-php: "true"
 spec:
   replicas: 1
   selector:
@@ -114,6 +112,8 @@ spec:
       labels:
         app: guestbook
         tier: frontend
+      annotations:
+        instrumentation.newrelic.com/inject-php: "true"
     spec:
       containers:
       - name: php-redis
