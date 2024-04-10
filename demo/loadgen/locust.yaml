@@ -64,3 +64,7 @@ data:
         @task
         def get_endpoint_four(self):
             self.client.get('http://express-hello-world-service.ao-demo.svc.cluster.local/', headers=default_headers)
+
+        @task
+        def get_endpoint_five(self):
+            self.client.get('http://php-frontend-service.ao-demo.svc.cluster.local/', headers=default_headers)
