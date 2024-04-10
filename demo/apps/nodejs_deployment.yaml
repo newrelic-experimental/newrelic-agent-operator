@@ -17,9 +17,12 @@ spec:
     spec:
       containers:
         - name: express-hello-world
-          image: ghcr.io/anuraaga/express-hello-world:latest
+          image: bschmitt769/express-demo-app:0.1
           ports:
             - containerPort: 3000
+          env:
+            - name: NODE_PATH
+              value: /usr/local/lib/node_modules
 ---
 apiVersion: v1
 kind: Service
