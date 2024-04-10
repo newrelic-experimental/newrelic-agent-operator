@@ -2,36 +2,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-petclinic
+  name: springboot-java
 spec:
   selector:
     matchLabels:
-      app: spring-petclinic
+      app: springboot-java
   replicas: 1
   template:
     metadata:
       labels:
-        app: spring-petclinic
+        app: springboot-java
       annotations:
         instrumentation.newrelic.com/inject-java: "true"
     spec:
       containers:
-        - name: spring-petclinic
-          image: ghcr.io/pavolloffay/spring-petclinic:latest
+        - name: springboot-java
+          image: ghcr.io/open-telemetry/opentelemetry-operator/e2e-test-app-java:main
           ports:
             - containerPort: 8080
-          env:
-          - name: NEW_RELIC_APP_NAME
-            value: spring-petclinic-demo
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-petclinic-service
+  name: springboot-java-service
 spec:
   type: ClusterIP
   ports:
   - port: 80
     targetPort: 8080
   selector:
-    app: spring-petclinic        
+    app: springboot-java      
