@@ -23,4 +23,15 @@ spec:
           env:
           - name: NEW_RELIC_APP_NAME
             value: spring-petclinic-demo
-          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-petclinic-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: spring-petclinic        
