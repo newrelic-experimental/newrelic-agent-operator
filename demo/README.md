@@ -1,5 +1,11 @@
 # Setup
 
+## Pre-requisites
+
+- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+- [Helm](https://helm.sh/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/) (or cluster of your choice)
+
 ## Create Namespaces
 ```
 kubectl create ns newrelic
@@ -8,6 +14,7 @@ kubectl create ns ao-demo
 
 ## Install Cert Manager
 ```
+helm repo add jetstack https://charts.jetstack.io --force-update
 helm install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
