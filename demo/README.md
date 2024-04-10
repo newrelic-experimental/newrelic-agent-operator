@@ -16,16 +16,21 @@ helm install \
   --set installCRDs=true
 ```
 
+## Clone the repo
+
+```
+git clone https://github.com/newrelic-experimental/newrelic-agent-operator && cd newrelic-agent-operator
+```
+
 ## Install `newrelic-agent-operator`
 ```
-helm upgrade --install newrelic-agent-operator chart/ \
-  --set licenseKey='xxxxxxxxxxxxxxxx' -n newrelic
+helm upgrade --install newrelic-agent-operator ./chart/ --set licenseKey='xxxxxxxxxxxxxxxx' -n newrelic
 ```
 
 ## Create custom resource
 
 ```
-kubectl apply -f customresource.yaml -n ao-demo
+kubectl apply -f ./demo/customresource.yaml -n ao-demo
 ```
 
 ## Create license key for demo apps
@@ -36,5 +41,5 @@ kubectl create secret generic newrelic-key-secret -n ao-demo --from-literal=new_
 ## Deploy demo apps
 
 ```
-kubectl apply -f ./apps/. -n ao-demo
+kubectl apply -f ./demo/apps/. -n ao-demo
 ```
