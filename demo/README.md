@@ -36,9 +36,18 @@ helm upgrade --install newrelic-agent-operator ./chart/ --set licenseKey='xxxxxx
 
 ## Create custom resource
 
+The custom resources referenced below use slightly different container images based on CPU architecture.
+
+### arm64
+```
+kubectl apply -f ./demo/customresource_arm64.yaml -n ao-demo
+```
+
+### amd64
 ```
 kubectl apply -f ./demo/customresource.yaml -n ao-demo
 ```
+
 
 ## Create license key for demo apps
 ```
