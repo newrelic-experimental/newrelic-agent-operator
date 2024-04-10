@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: express-hello-world
-          image: bschmitt769/express-demo-app:0.1
+          image:  ghcr.io/open-telemetry/opentelemetry-operator/e2e-test-app-nodejs:main
           ports:
             - containerPort: 3000
           env:
