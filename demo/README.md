@@ -45,8 +45,9 @@ kubectl apply -f ./demo/customresource.yaml -n ao-demo
 kubectl create secret generic newrelic-key-secret -n ao-demo --from-literal=new_relic_license_key=xxxxxxxxxxxxxxxx
 ```
 
-## Deploy demo apps
+## Deploy demo apps and loadgen
 
 ```
 kubectl apply -f ./demo/apps/. -n ao-demo
+kubectl apply -f ./demo/loadgen/locust.yaml. -n ao-demo
 ```
