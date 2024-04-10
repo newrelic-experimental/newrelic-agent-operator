@@ -1,16 +1,16 @@
-name: "Publish DotNet Newrelic-Instrumentation"
+name: "Publish DotNet Arm64 Newrelic-Instrumentation"
 
 on:
   push:
     paths:
-      - 'autoinstrumentation/dotnet/**'
-      - '.github/workflows/publish-newrelic-instrumentation-dotnet.yaml'
+      - 'autoinstrumentation/dotnet-arm/**'
+      - '.github/workflows/publish-newrelic-instrumentation-dotnet-arm.yaml'
     branches:
       - main
   pull_request:
     paths:
-      - 'autoinstrumentation/dotnet/**'
-      - '.github/workflows/publish-newrelic-instrumentation-dotnet.yaml'
+      - 'autoinstrumentation/dotnet-arm/**'
+      - '.github/workflows/publish-newrelic-instrumentation-dotnet-arm.yaml'
   workflow_dispatch:
 
 jobs:
@@ -21,13 +21,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Read version
-        run: echo "VERSION=$(cat autoinstrumentation/dotnet/version.txt)" >> $GITHUB_ENV
+        run: echo "VERSION=$(cat autoinstrumentation/dotnet/-arm/version.txt)" >> $GITHUB_ENV
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/${{ github.repository_owner }}/newrelic-agent-operator/instrumentation-dotnet
+          images: ghcr.io/${{ github.repository_owner }}/newrelic-agent-operator/instrumentation-dotnet-arm
           tags: |
             type=match,pattern=v(.*),group=1,value=v${{ env.VERSION }}
 
@@ -56,7 +56,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: autoinstrumentation/dotnet
-          platforms: linux/amd64
+          platforms: linux/arm64
           push: true
           build-args: version=${{ env.VERSION }}
           tags: ${{ steps.meta.outputs.tags }}
