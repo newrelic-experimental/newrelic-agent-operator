@@ -51,7 +51,7 @@ data:
 
         @task
         def get_endpoint_one(self):
-            self.client.get('http://spring-petclinic-service.ao-demo.svc.cluster.local/', headers=default_headers)
+            self.client.get('http://springboot-java-service.ao-demo.svc.cluster.local/', headers=default_headers)
 
         @task
         def get_endpoint_two(self):
