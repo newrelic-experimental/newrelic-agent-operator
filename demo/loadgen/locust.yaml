@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locust-headless
+spec:
+  selector:
+    matchLabels:
+      app: locust
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: locust
+    spec:
+      containers:
+      - name: locust
+        image: locustio/locust
+        # Locust requires a default host so google.com is just a placeholder.  The locustfile.py file is where the
+        # real script lives.
+        args: ["-H", "https://google.com", "-u", "1", "-r", "1", "--headless", "--only-summary", "-f", "/config/locustfile.py"]
+        env:
+        - name: HEADLESS_MODE
+          value: "true"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+        ports:
+        - containerPort: 8089
+          name: locust
+      volumes:
+        - name: config-volume
+          configMap:
+            name: locust-tasks-configmap
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: locust-tasks-configmap
+data:
+  locustfile.py: |
+    # -*- coding: utf-8 -*-
+
+    from locust import HttpUser, task, between
+
+    default_headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'}
+
+    class WebsiteUser(HttpUser):
+        wait_time = between(1, 2)
+
+        @task
+        def get_endpoint_one(self):
+            self.client.get('http://springboot-java-service.ao-demo.svc.cluster.local/', headers=default_headers)
+
+        @task
+        def get_endpoint_two(self):
+            self.client.get('http://dotnet-service.ao-demo.svc.cluster.local/', headers=default_headers)
+
+        @task
+        def get_endpoint_three(self):
+            self.client.get('http://flask-hello-world-service.ao-demo.svc.cluster.local/', headers=default_headers)
+
+        @task
+        def get_endpoint_four(self):
+            self.client.get('http://express-hello-world-service.ao-demo.svc.cluster.local/', headers=default_headers)
+
+        @task
+        def get_endpoint_five(self):
+            self.client.get('http://php-frontend-service.ao-demo.svc.cluster.local/', headers=default_headers)
