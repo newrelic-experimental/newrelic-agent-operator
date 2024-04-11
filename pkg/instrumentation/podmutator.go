@@ -74,28 +74,35 @@ func (pm *instPodMutator) Mutate(ctx context.Context, ns corev1.Namespace, pod c
 
 	if inst, err = pm.getInstrumentationInstance(ctx, ns, pod, annotationInjectJava); err != nil {
 		// we still allow the pod to be created, but we log a message to the operator's logs
-		logger.Error(err, "failed to select an New Relic Instrumentation instance for this pod")
+		logger.Error(err, "failed to select a New Relic Instrumentation instance for this pod")
 		return pod, err
 	}
 	insts.Java = inst
 
 	if inst, err = pm.getInstrumentationInstance(ctx, ns, pod, annotationInjectNodeJS); err != nil {
 		// we still allow the pod to be created, but we log a message to the operator's logs
-		logger.Error(err, "failed to select an New Relic Instrumentation instance for this pod")
+		logger.Error(err, "failed to select a New Relic Instrumentation instance for this pod")
 		return pod, err
 	}
 	insts.NodeJS = inst
 
 	if inst, err = pm.getInstrumentationInstance(ctx, ns, pod, annotationInjectPython); err != nil {
 		// we still allow the pod to be created, but we log a message to the operator's logs
-		logger.Error(err, "failed to select an New Relic Instrumentation instance for this pod")
+		logger.Error(err, "failed to select a New Relic Instrumentation instance for this pod")
 		return pod, err
 	}
 	insts.Python = inst
 
 	if inst, err = pm.getInstrumentationInstance(ctx, ns, pod, annotationInjectDotNet); err != nil {
 		// we still allow the pod to be created, but we log a message to the operator's logs
-		logger.Error(err, "failed to select an New Relic Instrumentation instance for this pod")
+		logger.Error(err, "failed to select a New Relic Instrumentation instance for this pod")
+		return pod, err
+	}
+	insts.DotNet = inst
+
+	if inst, err = pm.getInstrumentationInstance(ctx, ns, pod, annotationInjectPhp); err != nil {
+		// we still allow the pod to be created, but we log a message to the operator's logs
+		logger.Error(err, "failed to select a New Relic Instrumentation instance for this pod")
 		return pod, err
 	}
 	insts.DotNet = inst
@@ -107,7 +114,7 @@ func (pm *instPodMutator) Mutate(ctx context.Context, ns corev1.Namespace, pod c
 	}
 	insts.Go = inst
 
-	if insts.Java == nil && insts.NodeJS == nil && insts.Python == nil && insts.DotNet == nil && insts.Go == nil {
+	if insts.Java == nil && insts.NodeJS == nil && insts.Python == nil && insts.DotNet == nil && insts.Php == nil && insts.Go == nil {
 		logger.V(1).Info("annotation not present in deployment, skipping instrumentation injection")
 		return pod, nil
 	}
