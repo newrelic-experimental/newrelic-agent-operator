@@ -105,7 +105,7 @@ func (pm *instPodMutator) Mutate(ctx context.Context, ns corev1.Namespace, pod c
 		logger.Error(err, "failed to select a New Relic Instrumentation instance for this pod")
 		return pod, err
 	}
-	insts.DotNet = inst
+	insts.Php = inst
 
 	if inst, err = pm.getInstrumentationInstance(ctx, ns, pod, annotationInjectGo); err != nil {
 		// we still allow the pod to be created, but we log a message to the operator's logs
