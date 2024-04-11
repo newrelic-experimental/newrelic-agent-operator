@@ -10,7 +10,7 @@ ARG version
 
 WORKDIR /instrumentation
 
-RUN wget -c "https://download.newrelic.com/php_agent/release/newrelic-php5-${version}-linux.tar.gz" -O - | tar -xz --strip-components 1
+RUN wget -c "https://download.newrelic.com/php_agent/release/newrelic-php5-${version}-linux-musl.tar.gz" -O - | tar -xz --strip-components 1
 
 FROM busybox
 
