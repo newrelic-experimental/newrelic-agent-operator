@@ -40,6 +40,15 @@ helm repo add newrelic-agent-operator https://newrelic-experimental.github.io/ne
 helm upgrade --install newrelic-agent-operator newrelic-agent-operator/newrelic-agent-operator --set licenseKey='xxxxxxxxxxxxxxxx' -n newrelic
 ```
 
+## [Optional] Install the OpenTelemetry Collector
+
+If you want to demo Golang workloads, you'll also need to install the OpenTelemetry Collector to process and ship Spans to New Relic's OTLP endpoint.  The `newrelic-agent-operator` leverages the [OTel Golang auto-instrumentation](https://github.com/open-telemetry/opentelemetry-go-instrumentation) and is fully compatible with the New Relic platform. 
+
+```
+helm upgrade --install --namespace ao-demo opentelemetry-collector open-telemetry/opentelemetry-collector -f ./demo/apps/GoLang/otel-collector/otel_collector_values.yaml
+```
+
+
 ## Create your Instrumentation custom resource
 
 The Instrumentation custom resources referenced below may require different container images based on your CPU architecture for local testing.  Use the appropriate file based on your test system.
@@ -60,7 +69,7 @@ kubectl apply -f ./demo/customresource.yaml -n ao-demo
 A New Relic License (Ingest) Key will be stored in a secret within the `ao-demo` namespace.
 
 ```
-kubectl create secret generic newrelic-key-secret -n ao-demo --from-literal=new_relic_license_key=xxxxxxxxxxxxxxxx
+kubectl create secret generic newrelic-key-secret -n ao-demo --from-literal=new_relic_license_key=<NEW RELIC INGEST LICENSE KEY>
 ```
 
 ## Deploy demo apps and loadgen
@@ -70,6 +79,12 @@ The demo apps are accompanied by some basic load generation using locust.  Deplo
 ```
 kubectl apply -f ./demo/apps/. -n ao-demo
 kubectl apply -f ./demo/loadgen/locust.yaml -n ao-demo
+```
+
+If demoing GoLang, also run the following:
+
+```
+kubectl apply -f ./demo/apps/GoLang/. -n ao-demo
 ```
 
 ## Validate load via NRQL
