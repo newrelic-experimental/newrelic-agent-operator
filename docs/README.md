@@ -32,6 +32,7 @@ The `Instrumentation` custom resource defines the New Relic instrumentation cont
 You can configure the agent settings globally in this file using ENV variables.  Global agent settings can be overridden in your deployment manifest if a different configuration is required **TODO**: add example of this.
 
 ```
+kubectl apply -n ao-demo -f - <<EOF
 apiVersion: newrelic.com/v1alpha1
 kind: Instrumentation
 metadata:
@@ -67,6 +68,7 @@ spec:
     image: ghcr.io/newrelic-experimental/newrelic-agent-operator/instrumentation-php:10.19.0.9
   # go:
   #   image: ghcr.io/open-telemetry/opentelemetry-go-instrumentation/autoinstrumentation-go:latest
+EOF
 ```
 
 
@@ -99,6 +101,7 @@ instrumentation.newrelic.com/inject-go: "true"
 Add the appropriate annotation to your Deployment.  This tells the operator to inject the newrelic instrumentation init container and auto-instrument the application.
 
 ```
+kubectl apply -n ao-demo -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -123,6 +126,7 @@ spec:
           env:
           - name: NEW_RELIC_APP_NAME
             value: spring-petclinic-demo
+EOF
 ```
 
 ## Instrumentation Validation
