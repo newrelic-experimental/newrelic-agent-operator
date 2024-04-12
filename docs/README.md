@@ -23,7 +23,7 @@ helm repo add newrelic-agent-operator https://newrelic-experimental.github.io/ne
 helm upgrade --install newrelic-agent-operator newrelic-agent-operator/newrelic-agent-operator --set licenseKey='<NEW RELIC INGEST LICENSE KEY>' -n newrelic
 ```
 
-## Create your Instrumentation custom resource
+## Configure Auto-Instrumentation
 
 The `Instrumentation` custom resource defines the New Relic instrumentation containers that are injected as init containers into your application pods.  The instrumentation container versions correspond with New Relic APM agent versions so you have full control over which agent versions are deployed.  
 
@@ -78,9 +78,11 @@ Create a secret containing the license key associated with the New Relic account
 kubectl create secret generic newrelic-key-secret -n ao-demo --from-literal=new_relic_license_key=<NEW RELIC INGEST LICENSE KEY>
 ```
 
-## Annotate your deployment
+## Add annotations to existing Deployments
 
-The `newrelic-agent-operator` looks for language-specific annotations when your Pods are scheduled to the cluster.  Below are the currently supported annotations:
+The `newrelic-agent-operator` looks for language-specific annotations when your Pods are scheduled to the cluster.  Think of this as "opting in" to auto-instrumentation.
+
+Below are the currently supported annotations:
 
 
 ```
