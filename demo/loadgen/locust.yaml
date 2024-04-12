@@ -67,4 +67,4 @@ data:
 
         @task
         def get_endpoint_five(self):
-            self.client.get('http://php-frontend-service.ao-demo.svc.cluster.local/', headers=default_headers)
+            self.client.get('http://php-frontend-service.ao-demo.svc.cluster.local/guestbook.php?cmd=set&value=testing123', headers=default_headers)
