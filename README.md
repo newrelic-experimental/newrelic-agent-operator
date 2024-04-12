@@ -12,7 +12,7 @@ The <strong>newrelic-agent-operator</strong> is an implementation of the [Opente
 Currently, the New Relic Agent Operator requires [Cert Manager](https://cert-manager.io/docs/installation/) to be installed in your cluster.
 
 ## Helm Charts
-You can install the New Relic Agent Operator via Helm from the newrelic-agent-operator repository.  Visit the installation docs for more info.
+You can install the New Relic Agent Operator via Helm from the newrelic-agent-operator repository.  Visit the [installation docs](./docs) for more info.
 
 ```
 helm repo add newrelic-agent-operator https://newrelic-experimental.github.io/newrelic-agent-operator
