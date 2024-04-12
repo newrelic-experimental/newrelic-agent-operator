@@ -3,6 +3,16 @@ entries:
   newrelic-agent-operator:
   - apiVersion: v2
     appVersion: 0.1.2
+    created: "2024-04-12T01:35:36.243711257Z"
+    description: A Helm chart for the New Relic Agent Operator
+    digest: 5a853457a21abf3be3e85b0263c78feaf5787a820502b082cedfa37d07387696
+    name: newrelic-agent-operator
+    type: application
+    urls:
+    - https://github.com/newrelic-experimental/newrelic-agent-operator/releases/download/newrelic-agent-operator-0.0.4/newrelic-agent-operator-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: 0.1.2
     created: "2024-04-10T16:15:28.224394-05:00"
     description: A Helm chart for the New Relic Agent Operator
     digest: 74eb420f1d130030b475b27e4b40c5fbc952be4e5f21f94e3d42d410d946a16a
@@ -11,4 +21,4 @@ entries:
     urls:
     - newrelic-agent-operator-0.0.3.tgz
     version: 0.0.3
-generated: "2024-04-10T16:15:28.223303-05:00"
+generated: "2024-04-12T01:35:36.24372373Z"
