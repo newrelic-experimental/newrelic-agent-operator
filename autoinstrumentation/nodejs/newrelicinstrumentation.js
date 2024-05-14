@@ -1,3 +1,1 @@
-const newrelic = require('newrelic')
-
-export { newrelic }
+require('newrelic')
