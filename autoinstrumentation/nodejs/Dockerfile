@@ -4,17 +4,19 @@
 #   update the `NODE_OPTIONS` environment variable accordingly.
 #   In the first stage, install all the required packages in one custom directory.
 #   Then in the second stage, copy the directory to `/instrumentation`.
-# - Ensure you have `newrelic`, `@newrelic/aws-sdk`, `@newrelic/koa`, `@newrelic/superagent`, and `@newrelic/native-metrics`
+# - Ensure you have `newrelic`, which also contains instrumentation for `aws-sdk`, `koa`, and `superagent`.
+#   `@newrelic/native-metrics` should also be installed.
 # - Grant the necessary access to `/instrumentation` directory. `chmod -R go+r /instrumentation`
-FROM node:20.12 AS build
+ARG NODE_RUNTIME_VERSION=20
+ARG NEWRELIC_NODE_AGENT_VERSION=latest
+ARG NEWRELIC_NODE_NATIVE_METRICS_VERSION=latest
 
+FROM node:${NODE_RUNTIME_VERSION} AS build
 WORKDIR /operator-build
 COPY . .
-
-RUN npm install
+RUN npm install newrelic@${NEWRELIC_NODE_AGENT_VERSION}
+RUN npm install @newrelic/native-metrics@${NEWRELIC_NODE_NATIVE_METRICS_VERSION}
 
 FROM busybox
-
 COPY --from=build /operator-build/build/workspace /instrumentation
-
 RUN chmod -R go+r /instrumentation
